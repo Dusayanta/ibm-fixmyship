@@ -1,10 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
+import { ReactiveFormsModule, FormControl } from "@angular/forms";
+import { Router } from '@angular/router';
 
 import { User } from '../_models/user';
 import { UserService } from '../_services/user.service';
 import { AuthenticationService } from "../_services/authentication.service";
+import { AlertService } from "../_services/alert.service";
 import * as jwt_decode from "jwt-decode";
 
 @Component({
@@ -17,10 +20,15 @@ export class HomeComponent implements OnInit, OnDestroy {
   currentUserSubscription: Subscription;
   users: User[] = [];
   user = {firstName: '',lastName:'',email:''}
+  title = new FormControl('');
+  description = new FormControl('');
+  postsByOthers:any[]=[]
 
   constructor(
       private authenticationService: AuthenticationService,
-      private userService: UserService
+      private userService: UserService,
+      private router: Router,
+      private alertService: AlertService
   ) {
       this.currentUserSubscription = this.authenticationService.currentUser.subscribe(user => {
           this.currentUser = user;
@@ -29,6 +37,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
       this.loadUser();
+      this.getPost();
   }
 
   ngOnDestroy() {
@@ -51,5 +60,43 @@ export class HomeComponent implements OnInit, OnDestroy {
     } catch (error) {
       console.log(error)
     }
+  }
+  post()
+  {
+    if(this.title.value !='' && this.description.value !=''){
+
+      let postInfo ={
+        title: this.title.value,
+        description: this.description.value,
+        byEmail: this.user.email,
+        byFirstName: this.user.firstName
+      }
+      this.userService.writePost(postInfo)
+          .pipe(first())
+          .subscribe(
+              data => {
+                  this.alertService.success('Post Added', true);
+                  this.router.navigate(['/home']);
+              },
+              error => {
+                  this.alertService.error(error);
+              });
+    }
+  }
+  getPost(){
+    this.userService.getPosts(this.user.email)
+          .pipe(first())
+          .subscribe(
+              data => {
+                  //this.alertService.success('Post Added', true);
+                  this.postsByOthers.push(data);
+                  //console.log(data)
+                  //this.router.navigate(['/login']);
+              },
+              error => {
+                  this.alertService.error(error);
+              });
+              console.log(this.postsByOthers)
+    // return this.postsByOthers;
   }
 }

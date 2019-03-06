@@ -29,7 +29,26 @@ const userSchema = new Schema({
         required: true
     }
 });
+const postSchema = new Schema({
+    title:{
+        type: String,
+        required: true
+    },
+    description:{
+        type: String,
+        required: true
+    },
+    byEmail:{
+        type: String,
+        required:true
+    },
+    byFirstName:{
+        type:String,
+        required:true
+    }
+});
 const User = mongoose.model('User',userSchema);
+const Post = mongoose.model('Post',postSchema);
 
 const signup = (user,callback)=>{
     // synchronous method for hashing
@@ -51,7 +70,25 @@ const findUser = (email,callback)=>{
         callback(err,data);
     });
 }
-module.exports= {
+const writePost = (postInfo,callback)=>{
+    const postObj = new Post({
+        title: postInfo.title,
+        description: postInfo.description,
+        byEmail: postInfo.byEmail,
+        byFirstName: postInfo.byFirstName
+    });
+    Post.create(postObj,(err,response)=>{
+        callback(err,response);
+    });
+}
+const getPosts = (email,callback)=>{
+    Post.find({byEmail: {$ne:email}},(err,data)=>{
+        callback(err,data);
+    })
+}
+module.exports={
     signup : signup,
-    findUser : findUser
+    findUser : findUser,
+    writePost : writePost,
+    getPosts : getPosts
 }

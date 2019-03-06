@@ -27,4 +27,10 @@ export class UserService {
     delete(id: number) {
         return this.http.delete(`${this.config.apiUrl}/users/${id}`);
     }
+    writePost(postInfo){
+      return this.http.post(`${this.config.apiUrl}/users/post/add`, postInfo);
+    }
+    getPosts(email){
+      return this.http.get(`${this.config.apiUrl}/users/fetch/post/${email}`);
+    }
 }

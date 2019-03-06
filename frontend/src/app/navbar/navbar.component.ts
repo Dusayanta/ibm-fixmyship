@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from "../_models/user";
 import { AuthenticationService } from "../_services/authentication.service";
 import { Router } from '@angular/router';
+import * as jwt_decode from "jwt-decode";
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -9,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
+  user = {firstName: '',lastName:'',email:''}
   constructor(
     private router: Router,
     private authenticationService : AuthenticationService,
@@ -18,8 +20,17 @@ export class NavbarComponent implements OnInit {
   }
   isLoggedIn(){
     let currentUser:User = this.authenticationService.currentUserValue
-    if(currentUser)
-      return true;
+    if(currentUser){
+      try {
+        const data = jwt_decode(currentUser.token)
+        this.user.firstName = data.firstName
+        this.user.lastName = data.lastName
+        this.user.email = data.email
+        return true;
+      } catch (error) {
+        console.log(error)
+      }
+    }
     else
       return false;
   }

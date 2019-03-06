@@ -80,6 +80,33 @@ server.post('/users/authenticate',(req,res)=>{
         }
     })
 });
+server.post('/users/post/add',(req,res)=>{
+    const postInfo = req.body;
+    console.log(postInfo);
+    userService.writePost(postInfo,(err,response)=>{
+        if(err){
+            res.status(400).json({
+                message: err
+            })
+        }else{
+            res.status(200).json({
+                message: response
+            })
+        }
+    })
+});
+server.get('/users/fetch/post/:email',(req,res)=>{
+    let email = req.params.email;
+    userService.getPosts(email,(err,response)=>{
+        if(err){
+            res.status(400).json({
+                message: err
+            })
+        }else{
+            res.status(200).json(response)
+        }
+    })
+});
 server.listen(PORT,()=>{
     console.log(`Server is started at ${PORT}`);
 });
