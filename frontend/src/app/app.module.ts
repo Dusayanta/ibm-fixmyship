@@ -15,6 +15,7 @@ import { ErrorInterceptor } from "./_helpers/error.interceptor";
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { NotfoundComponent } from './notfound/notfound.component';
+import { PostsComponent } from './posts/posts.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { NotfoundComponent } from './notfound/notfound.component';
     AlertComponent,
     RegisterComponent,
     HomeComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    PostsComponent
   ],
   imports: [
     BrowserModule,

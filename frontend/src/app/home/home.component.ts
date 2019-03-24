@@ -9,6 +9,7 @@ import { UserService } from '../_services/user.service';
 import { AuthenticationService } from "../_services/authentication.service";
 import { AlertService } from "../_services/alert.service";
 import * as jwt_decode from "jwt-decode";
+import { PostModel } from '../_models/postModel';
 
 @Component({
   selector: 'app-home',
@@ -22,7 +23,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   user = {firstName: '',lastName:'',email:''}
   title = new FormControl('');
   description = new FormControl('');
-  postsByOthers:any[]=[]
+  postsByOthers:PostModel[];
 
   constructor(
       private authenticationService: AuthenticationService,
@@ -85,18 +86,18 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
   getPost(){
     this.userService.getPosts(this.user.email)
-          .pipe(first())
           .subscribe(
               data => {
                   //this.alertService.success('Post Added', true);
-                  this.postsByOthers.push(data);
+                  this.postsByOthers = data;
+                  //console.log("Inside: "+this.postsByOthers);
                   //console.log(data)
                   //this.router.navigate(['/login']);
               },
               error => {
                   this.alertService.error(error);
               });
-              console.log(this.postsByOthers)
+              console.log(this.postsByOthers);
     // return this.postsByOthers;
   }
 }

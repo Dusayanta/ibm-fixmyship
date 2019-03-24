@@ -1,32 +1,49 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-5">
-      <div class="card">
-        <div class="card-header"><h4>What is your issue?</h4></div>
-        <div class="card-body">
-          <div class="form-group row">
-            <label for="title" class="col-md-4">Title:</label>
-            <div class="col-md-8">
-              <input type="text" [formControl]="title" class="form-control form-control-lg">
+      <div class="position-fixed">
+        <div class="card">
+          <div class="card-header">
+            <h4>What is your issue?</h4>
+          </div>
+          <div class="card-body">
+            <div class="form-group row">
+              <label for="title" class="col-md-4">Title:</label>
+              <div class="col-md-8">
+                <input type="text" [formControl]="title" class="form-control form-control-lg">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="description" class="col-md-4">Description:</label>
+              <div class="col-md-8">
+                <textarea class="form-control form-control-lg" [formControl]="description" cols="15"
+                  rows="4"></textarea>
+              </div>
             </div>
           </div>
-          <div class="form-group row">
-            <label for="description" class="col-md-4">Description:</label>
-            <div class="col-md-8">
-              <textarea class="form-control form-control-lg" [formControl]="description" cols="15" rows="4"></textarea>
-            </div>
-          </div>
-        </div>
-        <div class="card-footer">
-          <div class="col-md-5 float-right">
+          <div class="card-footer">
+            <div class="col-md-5 float-right">
               <button class="btn btn-danger btn-lg btn-block" (click)="post()">Post</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <div class="col-lg-7">
-      Posts here
-      <button class="btn btn-primary" (click)="getPost()">View post in console</button>
+      <div *ngIf="postsByOthers">
+        <div *ngFor="let post of postsByOthers">
+          <div class="card m-2 p-2">
+            <div class="card-header"><a href="#" class="text-dark">{{post.title}}</a></div>
+            <div class="card-body">
+              <div>{{post.description}}</div>
+              <div>
+                <div class="float-right">-<i>{{post.byFirstName}}</i></div>
+              </div>
+            </div>
+            <div class="card-footer"><a href="#">Read More..</a></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

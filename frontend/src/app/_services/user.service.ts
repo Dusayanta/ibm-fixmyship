@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { User } from '../_models/user';
+import { PostModel } from "../_models/postModel";
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -30,7 +33,14 @@ export class UserService {
     writePost(postInfo){
       return this.http.post(`${this.config.apiUrl}/users/post/add`, postInfo);
     }
-    getPosts(email){
-      return this.http.get(`${this.config.apiUrl}/users/fetch/post/${email}`);
+    getPosts(email):Observable<PostModel[]>{
+      return this.http
+      .get<PostModel[]>(`${this.config.apiUrl}/users/fetch/post/${email}`)
+      .pipe(map((response) => response));
+    }
+    getSelfPosts(email):Observable<PostModel[]>{
+      return this.http
+      .get<PostModel[]>(`${this.config.apiUrl}/users/fetch/selfpost/${email}`)
+      .pipe(map(response => response));
     }
 }

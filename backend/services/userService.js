@@ -82,7 +82,12 @@ const writePost = (postInfo,callback)=>{
     });
 }
 const getPosts = (email,callback)=>{
-    Post.find({byEmail: {$ne:email}},(err,data)=>{
+    Post.find({byEmail: {$ne:email},},{_id:0,__v:0},(err,data)=>{
+        callback(err,data);
+    })
+}
+const getSelfPosts = (email,callback)=>{
+    Post.find({byEmail: email},{_id:0,__v:0},(err,data)=>{
         callback(err,data);
     })
 }
@@ -90,5 +95,6 @@ module.exports={
     signup : signup,
     findUser : findUser,
     writePost : writePost,
-    getPosts : getPosts
+    getPosts : getPosts,
+    getSelfPosts
 }

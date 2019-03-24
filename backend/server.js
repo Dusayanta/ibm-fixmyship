@@ -107,6 +107,18 @@ server.get('/users/fetch/post/:email',(req,res)=>{
         }
     })
 });
+server.get('/users/fetch/selfpost/:email',(req,res)=>{
+    let email = req.params.email;
+    userService.getSelfPosts(email,(err,response)=>{
+        if(err){
+            res.status(400).json({
+                message: err
+            })
+        }else{
+            res.status(200).json(response)
+        }
+    })
+});
 server.listen(PORT,()=>{
     console.log(`Server is started at ${PORT}`);
 });
