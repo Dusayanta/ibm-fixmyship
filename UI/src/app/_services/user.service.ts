@@ -31,7 +31,7 @@ export class UserService {
         return this.http.delete(`${this.config.apiUrl}/users/${id}`);
     }
     writePost(postInfo){
-      return this.http.post(`${this.config.apiUrl}/users/post/add`, postInfo);
+      return this.http.post(`http://localhost:8080/post`, postInfo);
     }
     getPosts(email):Observable<PostModel[]>{
       return this.http
@@ -41,6 +41,11 @@ export class UserService {
     getSelfPosts(email):Observable<PostModel[]>{
       return this.http
       .get<PostModel[]>(`${this.config.apiUrl}/users/fetch/selfpost/${email}`)
+      .pipe(map(response => response));
+    }
+    getMyPosts():Observable<PostModel[]>{
+      return this.http
+      .get<PostModel[]>(`http://localhost:8080/post`)
       .pipe(map(response => response));
     }
 }
