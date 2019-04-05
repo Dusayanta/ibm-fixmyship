@@ -25,6 +25,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   description = new FormControl('');
   postsByOthers:PostModel[];
 
+  myPosts:PostModel[];
+
   constructor(
       private authenticationService: AuthenticationService,
       private userService: UserService,
@@ -37,8 +39,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-      this.loadUser();
-      this.getPost();
+     // this.loadUser();
+     // this.getPost();
+     this.getMyPosts();
   }
 
   ngOnDestroy() {
@@ -66,12 +69,19 @@ export class HomeComponent implements OnInit, OnDestroy {
   {
     if(this.title.value !='' && this.description.value !=''){
 
+      // let postInfo ={
+      //   title: this.title.value,
+      //   description: this.description.value,
+      //   byEmail: this.user.email,
+      //   byFirstName: this.user.firstName
+      // }
+
       let postInfo ={
         title: this.title.value,
         description: this.description.value,
-        byEmail: this.user.email,
-        byFirstName: this.user.firstName
+        uid : 1
       }
+
       this.userService.writePost(postInfo)
           .pipe(first())
           .subscribe(
@@ -83,6 +93,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                   this.alertService.error(error);
               });
     }
+    this.getMyPosts();
   }
   getPost(){
     this.userService.getPosts(this.user.email)
@@ -99,5 +110,16 @@ export class HomeComponent implements OnInit, OnDestroy {
               });
               console.log(this.postsByOthers);
     // return this.postsByOthers;
+  }
+  getMyPosts(){
+    this.userService.getMyPosts()
+    .subscribe(
+      data =>{
+        this.myPosts = data;
+      },
+      error =>{
+        this.alertService.error(error);
+      }
+    );
   }
 }
