@@ -29,7 +29,7 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-7">
+    <!-- <div class="col-lg-7">
       <div *ngIf="postsByOthers">
         <div *ngFor="let post of postsByOthers">
           <div class="card m-2 p-2">
@@ -45,5 +45,16 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
+    <div *ngIf="myPosts" class="col-md-5 m-4 p-2">
+      <div *ngFor="let post of myPosts">
+          <div class="card m-2 p-2">
+              <div class="card-header"><a href="#" class="text-dark">{{post.title}}</a></div>
+              <div class="card-body">
+                <div>{{post.description}}</div>
+              </div>
+              <div class="card-footer"><a href="#">Actions</a></div>
+            </div>
+      </div>
+    </div>
 </div>
