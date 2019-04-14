@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { ReactiveFormsModule, FormControl } from "@angular/forms";
+import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { User } from '../_models/user';
 import { UserService } from '../_services/user.service';
-import { AuthenticationService } from "../_services/authentication.service";
-import { AlertService } from "../_services/alert.service";
-import * as jwt_decode from "jwt-decode";
+import { AuthenticationService } from '../_services/authentication.service';
+import { AlertService } from '../_services/alert.service';
+import * as jwt_decode from 'jwt-decode';
 import { PostModel } from '../_models/postModel';
 
 @Component({
@@ -20,33 +20,33 @@ export class HomeComponent implements OnInit, OnDestroy {
   currentUser: User;
   currentUserSubscription: Subscription;
   users: User[] = [];
-  user = {firstName: '',lastName:'',email:''}
+  user = { firstName: '', lastName: '', email: '' };
   title = new FormControl('');
   description = new FormControl('');
-  postsByOthers:PostModel[];
+  postsByOthers: PostModel[];
 
-  myPosts:PostModel[];
+  myPosts: PostModel[];
 
   constructor(
-      private authenticationService: AuthenticationService,
-      private userService: UserService,
-      private router: Router,
-      private alertService: AlertService
+    private authenticationService: AuthenticationService,
+    private userService: UserService,
+    private router: Router,
+    private alertService: AlertService
   ) {
-      this.currentUserSubscription = this.authenticationService.currentUser.subscribe(user => {
-          this.currentUser = user;
-      });
+    this.currentUserSubscription = this.authenticationService.currentUser.subscribe(user => {
+      this.currentUser = user;
+    });
   }
 
   ngOnInit() {
-     // this.loadUser();
-     // this.getPost();
-     this.getMyPosts();
+    // this.loadUser();
+    // this.getPost();
+    this.getMyPosts();
   }
 
   ngOnDestroy() {
-      // unsubscribe to ensure no memory leaks
-      this.currentUserSubscription.unsubscribe();
+    // unsubscribe to ensure no memory leaks
+    this.currentUserSubscription.unsubscribe();
   }
 
   // deleteUser(id: number) {
@@ -57,17 +57,16 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private loadUser() {
     try {
-      const data = jwt_decode(this.currentUser.token)
-      this.user.firstName = data.firstName
-      this.user.lastName = data.lastName
-      this.user.email = data.email
+      const data = jwt_decode(this.currentUser.token);
+      this.user.firstName = data.firstName;
+      this.user.lastName = data.lastName;
+      this.user.email = data.email;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
-  post()
-  {
-    if(this.title.value !='' && this.description.value !=''){
+  post() {
+    if (this.title.value !== '' && this.description.value !== '') {
 
       // let postInfo ={
       //   title: this.title.value,
@@ -76,50 +75,50 @@ export class HomeComponent implements OnInit, OnDestroy {
       //   byFirstName: this.user.firstName
       // }
 
-      let postInfo ={
+      let postInfo = {
         title: this.title.value,
         description: this.description.value,
-        uid : 1
+        uid: 1
       }
 
       this.userService.writePost(postInfo)
-          .pipe(first())
-          .subscribe(
-              data => {
-                  this.alertService.success('Post Added', true);
-                  this.router.navigate(['/home']);
-              },
-              error => {
-                  this.alertService.error(error);
-              });
+        .pipe(first())
+        .subscribe(
+          data => {
+            this.alertService.success('Post Added', true);
+            this.router.navigate(['/home']);
+          },
+          error => {
+            this.alertService.error(error);
+          });
     }
     this.getMyPosts();
   }
-  getPost(){
+  getPost() {
     this.userService.getPosts(this.user.email)
-          .subscribe(
-              data => {
-                  //this.alertService.success('Post Added', true);
-                  this.postsByOthers = data;
-                  //console.log("Inside: "+this.postsByOthers);
-                  //console.log(data)
-                  //this.router.navigate(['/login']);
-              },
-              error => {
-                  this.alertService.error(error);
-              });
-              console.log(this.postsByOthers);
+      .subscribe(
+        data => {
+          // this.alertService.success('Post Added', true);
+          this.postsByOthers = data;
+          // console.log('Inside: '+this.postsByOthers);
+          //  console.log(data)
+          // this.router.navigate(['/login']);
+        },
+        error => {
+          this.alertService.error(error);
+        });
+    console.log(this.postsByOthers);
     // return this.postsByOthers;
   }
-  getMyPosts(){
+  getMyPosts() {
     this.userService.getMyPosts()
-    .subscribe(
-      data =>{
-        this.myPosts = data;
-      },
-      error =>{
-        this.alertService.error(error);
-      }
-    );
+      .subscribe(
+        data => {
+          this.myPosts = data;
+        },
+        error => {
+          this.alertService.error(error);
+        }
+      );
   }
 }

@@ -33,17 +33,17 @@ export class UserService {
     writePost(postInfo){
       return this.http.post(`http://localhost:8080/post`, postInfo);
     }
-    getPosts(email):Observable<PostModel[]>{
+    getPosts(email): Observable<PostModel[]>{
       return this.http
       .get<PostModel[]>(`${this.config.apiUrl}/users/fetch/post/${email}`)
       .pipe(map((response) => response));
     }
-    getSelfPosts(email):Observable<PostModel[]>{
+    getSelfPosts(email): Observable<PostModel[]>{
       return this.http
       .get<PostModel[]>(`${this.config.apiUrl}/users/fetch/selfpost/${email}`)
       .pipe(map(response => response));
     }
-    getMyPosts():Observable<PostModel[]>{
+    getMyPosts(): Observable<PostModel[]>{
       return this.http
       .get<PostModel[]>(`http://localhost:8080/post`)
       .pipe(map(response => response));
