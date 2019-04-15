@@ -1,0 +1,6 @@
+com\ibm\fms\service\FixMyShipService.class
+com\ibm\fms\dao\FixMyShipDAO.class
+com\ibm\fms\model\Post.class
+com\ibm\fms\service\FixMyShipServiceImpl.class
+com\ibm\fms\FmsApplication.class
+com\ibm\fms\controller\FixMyShipController.class

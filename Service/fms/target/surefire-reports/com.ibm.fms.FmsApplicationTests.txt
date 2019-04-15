@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.ibm.fms.FmsApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 22.112 s - in com.ibm.fms.FmsApplicationTests
