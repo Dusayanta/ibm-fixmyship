@@ -31,7 +31,7 @@ export class UserService {
         return this.http.delete(`${this.config.apiUrl}/users/${id}`);
     }
     writePost(postInfo){
-      return this.http.post(`${this.config.apiUrl}/users/post/add`, postInfo);
+      return this.http.post(`http://localhost:8080/post`, postInfo);
     }
     getPosts(email):Observable<PostModel[]>{
       return this.http
@@ -43,4 +43,26 @@ export class UserService {
       .get<PostModel[]>(`${this.config.apiUrl}/users/fetch/selfpost/${email}`)
       .pipe(map(response => response));
     }
+    getMyPosts():Observable<PostModel[]>{
+      return this.http
+      .get<PostModel[]>(`http://localhost:8080/post`)
+      .pipe(map(response => response));
+    }
+    deleteMyPost(id:number){
+      return this.http.delete(`http://localhost:8080/post/${id}`);
+    }
+    // updateMyPost(postInfo){
+    //   return this.http.put(`http://localhost:8080/post/${id}`, postInfo);
+    // }
+
+    // public update(pizza: Pizza): Observable<Pizza> {
+    //   return this.httpClient
+    //     .put<Pizza>(`${this.url}/${this.endpoint}/${pizza.id}`, pizza);
+    // }
+
+    updateMyPost(post,id): Observable<PostModel[]> {
+      return this.http
+        .put<PostModel[]>(`http://localhost:8080/post/${id}`, post);
+    }
+    
 }

@@ -1,6 +1,6 @@
 export class PostModel{
+  id?:number;
   title: string;
   description: string;
-  byEmail: string;
-  byFirstName: string;
+  uid?:number;
 }

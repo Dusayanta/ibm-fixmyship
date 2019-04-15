@@ -3,7 +3,6 @@ import { Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { ReactiveFormsModule, FormControl } from "@angular/forms";
 import { Router } from '@angular/router';
-
 import { User } from '../_models/user';
 import { UserService } from '../_services/user.service';
 import { AuthenticationService } from "../_services/authentication.service";
@@ -17,6 +16,7 @@ import { PostModel } from '../_models/postModel';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  id:number;
   currentUser: User;
   currentUserSubscription: Subscription;
   users: User[] = [];
@@ -24,6 +24,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   title = new FormControl('');
   description = new FormControl('');
   postsByOthers:PostModel[];
+
+  myPosts:PostModel[];
 
   constructor(
       private authenticationService: AuthenticationService,
@@ -37,8 +39,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-      this.loadUser();
-      this.getPost();
+     // this.loadUser();
+     // this.getPost();
+     this.getMyPosts();
+    // this.deleteMyposts();
   }
 
   ngOnDestroy() {
@@ -66,12 +70,19 @@ export class HomeComponent implements OnInit, OnDestroy {
   {
     if(this.title.value !='' && this.description.value !=''){
 
+      // let postInfo ={
+      //   title: this.title.value,
+      //   description: this.description.value,
+      //   byEmail: this.user.email,
+      //   byFirstName: this.user.firstName
+      // }
+
       let postInfo ={
         title: this.title.value,
         description: this.description.value,
-        byEmail: this.user.email,
-        byFirstName: this.user.firstName
+        uid : 1
       }
+
       this.userService.writePost(postInfo)
           .pipe(first())
           .subscribe(
@@ -83,6 +94,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                   this.alertService.error(error);
               });
     }
+    this.getMyPosts();
   }
   getPost(){
     this.userService.getPosts(this.user.email)
@@ -100,4 +112,56 @@ export class HomeComponent implements OnInit, OnDestroy {
               console.log(this.postsByOthers);
     // return this.postsByOthers;
   }
+  getMyPosts(){
+    this.userService.getMyPosts()
+    .subscribe(
+      data =>{
+        this.myPosts = data;
+      },
+      error =>{
+        this.alertService.error(error);
+      }
+    );
+  }
+
+  deletePost(id){
+    this.userService.deleteMyPost(id).subscribe(res => {
+      this.getMyPosts();
+    })
+  }
+  // updatePost(post){
+  //   this.userService.updateMyPost().subscribe(res => {
+  //     this.getMyPosts();
+  //   })
+  // }
+
+  
+  // updatePost(id){
+  //   console.log(id);
+  //   // if (
+  //   //   this.title!="" &&
+  //   //   this.description != "" 
+  //   // ) {
+  //     //Constructing Post JSON object
+  //     let postObj = {
+  //       title : this.title,
+  //       description: this.description,
+  //       uid:1
+  //     };
+
+  //     this.userService.updateMyPost(postInfo).subscribe(
+  //       data => {
+  //        // this.showEditForm = false;
+  //        // this.title = this.description = "";
+  //        console.log(postObj);
+            
+  //         this.getMyPosts();
+  //       },
+  //       error => {
+  //         console.log(error);
+  //       }
+  //     );
+  //     this.getMyPosts();
+  //   }  
 }
+
