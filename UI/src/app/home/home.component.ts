@@ -10,6 +10,7 @@ import { AuthenticationService } from "../_services/authentication.service";
 import { AlertService } from "../_services/alert.service";
 import * as jwt_decode from "jwt-decode";
 import { PostModel } from '../_models/postModel';
+import { LikeModel } from '../_models/LikeModel';
 
 @Component({
   selector: 'app-home',
@@ -26,6 +27,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   postsByOthers:PostModel[];
 
   myPosts:PostModel[];
+  myLikes:LikeModel[];
+  name:String;
 
   constructor(
       private authenticationService: AuthenticationService,
@@ -42,6 +45,8 @@ export class HomeComponent implements OnInit, OnDestroy {
      // this.loadUser();
      // this.getPost();
      this.getMyPosts();
+     this.getLikes();
+     //this.getNames();
   }
 
   ngOnDestroy() {
@@ -79,7 +84,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       let postInfo ={
         title: this.title.value,
         description: this.description.value,
-        uid : 1
+        uid : 2
       }
 
       this.userService.writePost(postInfo)
@@ -95,6 +100,43 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
     this.getMyPosts();
   }
+
+  likePost(id){
+    const likeObj = {
+      cid: id,
+      uid: 3
+    };
+    this.userService.likeMyPost(likeObj).subscribe(res => {
+      this.getMyPosts();
+    })
+  }
+
+  getLikes(){
+    this.userService.getLike()
+    .subscribe(
+      data =>{
+        this.myLikes = data;
+        console.log(this.myLikes);
+      },
+      error =>{
+        this.alertService.error(error);
+      }
+    );
+  }
+
+ /* getNames()
+  {
+    this.userService.getName()
+    .subscribe(
+      data =>{
+        this.name = data;
+        console.log(`this name:`);
+      },
+      error =>{
+        this.alertService.error(error);
+      }
+    );
+  }*/
   getPost(){
     this.userService.getPosts(this.user.email)
           .subscribe(
@@ -116,6 +158,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     .subscribe(
       data =>{
         this.myPosts = data;
+        console.log(`this posts`,this.myPosts);
       },
       error =>{
         this.alertService.error(error);

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { User } from '../_models/user';
 import { PostModel } from "../_models/postModel";
+import { LikeModel } from "../_models/LikeModel";
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -33,7 +34,25 @@ export class UserService {
     writePost(postInfo){
       return this.http.post(`http://localhost:8080/post`, postInfo);
     }
-    getPosts(email):Observable<PostModel[]>{
+
+    likeMyPost(likeObj)
+    {
+      return this.http.post(`http://localhost:8080/comment/like`,likeObj);
+    }
+
+   getLike():Observable<LikeModel[]>{
+      return this.http
+      .get<LikeModel[]>(`http://localhost:8080/likes`)
+      .pipe(map(response => response))
+    }
+
+    getName():Observable<String>{
+      return this.http
+      .get<String>(`http://localhost:8080/mostlike`)
+      .pipe(map(response => response))
+    }
+
+   getPosts(email):Observable<PostModel[]>{
       return this.http
       .get<PostModel[]>(`${this.config.apiUrl}/users/fetch/post/${email}`)
       .pipe(map((response) => response));

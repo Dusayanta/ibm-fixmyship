@@ -47,13 +47,15 @@
     </div>
   </div> -->
     <div *ngIf="myPosts" class="col-md-5 m-4 p-2">
-      <div *ngFor="let post of myPosts">
+      <div *ngFor="let post of myPosts;index as i">
           <div class="card m-2 p-2">
               <div class="card-header"><a href="#" class="text-dark">{{post.title}}</a></div>
               <div class="card-body">
                 <div>{{post.description}}</div>
               </div>
               <div class="card-footer"><a href="#">Actions</a></div>
+              <button class="btn btn-danger btn-xs" (click)="likePost(post.id)">Like {{myLikes[i]}}</button>
+              
             </div>
       </div>
     </div>
