@@ -48,21 +48,4 @@ export class UserService {
       .get<PostModel[]>(`http://localhost:8080/post`)
       .pipe(map(response => response));
     }
-    deleteMyPost(id:number){
-      return this.http.delete(`http://localhost:8080/post/${id}`);
-    }
-    // updateMyPost(postInfo){
-    //   return this.http.put(`http://localhost:8080/post/${id}`, postInfo);
-    // }
-
-    // public update(pizza: Pizza): Observable<Pizza> {
-    //   return this.httpClient
-    //     .put<Pizza>(`${this.url}/${this.endpoint}/${pizza.id}`, pizza);
-    // }
-
-    updateMyPost(post,id): Observable<PostModel[]> {
-      return this.http
-        .put<PostModel[]>(`http://localhost:8080/post/${id}`, post);
-    }
-    
 }
