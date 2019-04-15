@@ -3,7 +3,6 @@ import { Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { ReactiveFormsModule, FormControl } from "@angular/forms";
 import { Router } from '@angular/router';
-
 import { User } from '../_models/user';
 import { UserService } from '../_services/user.service';
 import { AuthenticationService } from "../_services/authentication.service";
@@ -17,6 +16,7 @@ import { PostModel } from '../_models/postModel';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  id:number;
   currentUser: User;
   currentUserSubscription: Subscription;
   users: User[] = [];
@@ -42,6 +42,7 @@ export class HomeComponent implements OnInit, OnDestroy {
      // this.loadUser();
      // this.getPost();
      this.getMyPosts();
+    // this.deleteMyposts();
   }
 
   ngOnDestroy() {
@@ -122,4 +123,45 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     );
   }
+
+  deletePost(id){
+    this.userService.deleteMyPost(id).subscribe(res => {
+      this.getMyPosts();
+    })
+  }
+  // updatePost(post){
+  //   this.userService.updateMyPost().subscribe(res => {
+  //     this.getMyPosts();
+  //   })
+  // }
+
+  
+  // updatePost(id){
+  //   console.log(id);
+  //   // if (
+  //   //   this.title!="" &&
+  //   //   this.description != "" 
+  //   // ) {
+  //     //Constructing Post JSON object
+  //     let postObj = {
+  //       title : this.title,
+  //       description: this.description,
+  //       uid:1
+  //     };
+
+  //     this.userService.updateMyPost(postInfo).subscribe(
+  //       data => {
+  //        // this.showEditForm = false;
+  //        // this.title = this.description = "";
+  //        console.log(postObj);
+            
+  //         this.getMyPosts();
+  //       },
+  //       error => {
+  //         console.log(error);
+  //       }
+  //     );
+  //     this.getMyPosts();
+  //   }  
 }
+

@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
 import { AppComponent } from './app.component';
 import { routing }        from './app.routing';
 
@@ -19,6 +18,7 @@ import { PostsComponent } from './posts/posts.component';
 
 @NgModule({
   declarations: [
+    //AngularFontAwesomeModule,
     AppComponent,
     NavbarComponent,
     FooterComponent,

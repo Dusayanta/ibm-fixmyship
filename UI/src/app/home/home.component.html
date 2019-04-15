@@ -53,7 +53,14 @@
               <div class="card-body">
                 <div>{{post.description}}</div>
               </div>
-              <div class="card-footer"><a href="#">Actions</a></div>
+              <div class="card-footer"><a href="#">Actions</a>
+                <!-- <div class="col-md-5 float-right">
+                  <button class="btn btn-info btn-xs" (click)="updatePost(post.id)">Update</button>
+                </div> -->
+                <div class="col-md-5 float-right">
+                <button class="btn btn-danger btn-xs" (click)="deletePost(post.id)">Delete</button>
+              </div>
+            </div>
             </div>
       </div>
     </div>
