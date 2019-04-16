@@ -53,8 +53,25 @@
               <div class="card-body">
                 <div>{{post.description}}</div>
               </div>
-              <div class="card-footer"><a href="#">Actions</a></div>
+              <div class="card-footer"><a href="comments">Actions</a></div>
+              <div>
+                <input type="text" [formControl]="userComment" class="form-control form-control-lg"id="comments" placeholder="add comments"/>
+                <button class="btn btn-danger" (click)="comment(post.id); getUserComments()">Comment</button>
+                
+              </div>
             </div>
       </div>
     </div>
 </div>
+
+<!----<div *ngIf="myComments" class="col-md-5 m-4 p-2 collapse" id="cmt" >
+    <div *ngFor="let comment of myComments">
+        <div class="card m-2 p-2">
+            
+            <div class="card-body">
+              <div>{{comment.description}}</div>
+            </div>
+            <div class="card-footer"><a href="#comments">Likes</a></div>
+        </div>
+    </div>
+  </div>-->

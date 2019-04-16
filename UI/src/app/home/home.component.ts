@@ -10,6 +10,9 @@ import { AuthenticationService } from "../_services/authentication.service";
 import { AlertService } from "../_services/alert.service";
 import * as jwt_decode from "jwt-decode";
 import { PostModel } from '../_models/postModel';
+import { CommentModel } from '../_models/commentModel';
+import { post } from 'selenium-webdriver/http';
+
 
 @Component({
   selector: 'app-home',
@@ -23,9 +26,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   user = {firstName: '',lastName:'',email:''}
   title = new FormControl('');
   description = new FormControl('');
+  userComment = new FormControl('');
   postsByOthers:PostModel[];
+  
 
   myPosts:PostModel[];
+  myComments:CommentModel[];
 
   constructor(
       private authenticationService: AuthenticationService,
@@ -121,5 +127,30 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.alertService.error(error);
       }
     );
+  }
+
+  comment(id){
+    if(this.userComment.value!=''){
+      let userCommnet ={
+        description: this.userComment.value,
+        uid: 1,
+        pid: id
+
+      }
+      this.userService.writeComment(userCommnet)
+          .pipe(first())
+          .subscribe(
+              data => {
+                  this.alertService.success('Comment Added', true);
+                  this.router.navigate(['/home']);
+              },
+              error => {
+                  this.alertService.error(error);
+              });
+    }
+  }
+
+  getUserComments(){
+    this.userService.getMyComments();
   }
 }

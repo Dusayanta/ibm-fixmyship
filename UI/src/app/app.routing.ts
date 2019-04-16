@@ -6,6 +6,7 @@ import { RegisterComponent } from './register/register.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { NotfoundComponent } from "./notfound/notfound.component";
 import { PostsComponent } from "./posts/posts.component";
+import { CommentsComponent } from './comments/comments.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -13,6 +14,7 @@ const appRoutes: Routes = [
     { path: 'selfposts', component: PostsComponent},
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
+    { path: 'comments', component: CommentsComponent},
 
     // otherwise redirect to home
     { path: '**', component: NotfoundComponent }

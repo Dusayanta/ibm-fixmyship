@@ -5,6 +5,7 @@ import { User } from '../_models/user';
 import { PostModel } from "../_models/postModel";
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { CommentModel } from '../_models/commentModel';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -46,6 +47,14 @@ export class UserService {
     getMyPosts():Observable<PostModel[]>{
       return this.http
       .get<PostModel[]>(`http://localhost:8080/post`)
+      .pipe(map(response => response));
+    }
+    writeComment(userComment){
+      return this.http.post(`http://localhost:8080/comment`,userComment);
+    }
+    getMyComments():Observable<CommentModel[]>{
+      return this.http
+      .get<CommentModel[]>(`http://localhost:8080/comment`)
       .pipe(map(response => response));
     }
 }

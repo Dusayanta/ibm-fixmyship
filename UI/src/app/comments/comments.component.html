@@ -1,0 +1,27 @@
+
+
+<div *ngIf="myPosts" class="col-md-5 m-4 p-2">
+    <div *ngFor="let post of myPosts">
+        <div class="card m-2 p-2">
+            <div class="card-header"><a href="#" class="text-dark">{{post.title}}</a></div>
+        </div>
+    </div>
+  </div>
+  
+  
+
+<div *ngIf="myComments" class="col-md-5 m-4 p-2">
+    <div *ngFor="let comment of myComments">
+        <div class="card m-2 p-2">
+            
+            <div class="card-body">
+              <div>{{comment.description}}</div>
+            </div>
+            <div class="card-footer"><a href="#comments">Likes</a></div>
+        </div>
+    </div>
+  </div>
+  
+  
+  
+  
