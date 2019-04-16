@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { User } from '../_models/user';
 import { PostModel } from "../_models/postModel";
 import { LikeModel } from "../_models/LikeModel";
+import { MaxNameModel } from "../_models/MaxName";
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -46,12 +47,12 @@ export class UserService {
       .pipe(map(response => response))
     }
 
-    getName():Observable<String>{
+    getName():Observable<MaxNameModel[]>{
       return this.http
-      .get<String>(`http://localhost:8080/mostlike`)
-      .pipe(map(response => response))
+      .get<MaxNameModel[]>(`http://localhost:8080/mostlike`)
+      .pipe(map(response => response));
     }
-
+  
    getPosts(email):Observable<PostModel[]>{
       return this.http
       .get<PostModel[]>(`${this.config.apiUrl}/users/fetch/post/${email}`)

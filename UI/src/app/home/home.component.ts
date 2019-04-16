@@ -11,6 +11,7 @@ import { AlertService } from "../_services/alert.service";
 import * as jwt_decode from "jwt-decode";
 import { PostModel } from '../_models/postModel';
 import { LikeModel } from '../_models/LikeModel';
+import { MaxNameModel } from '../_models/MaxName';
 
 @Component({
   selector: 'app-home',
@@ -28,7 +29,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   myPosts:PostModel[];
   myLikes:LikeModel[];
-  name:String;
+  myName:MaxNameModel[];
 
   constructor(
       private authenticationService: AuthenticationService,
@@ -104,7 +105,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   likePost(id){
     const likeObj = {
       cid: id,
-      uid: 3
+      uid: 2
     };
     this.userService.likeMyPost(likeObj).subscribe(res => {
       this.getMyPosts();
@@ -124,19 +125,20 @@ export class HomeComponent implements OnInit, OnDestroy {
     );
   }
 
- /* getNames()
+  getNames()
   {
     this.userService.getName()
     .subscribe(
       data =>{
-        this.name = data;
-        console.log(`this name:`);
+        this.myName = data;
+        console.log(this.myName);
       },
       error =>{
+        console.log(`Error `,error);
         this.alertService.error(error);
       }
     );
-  }*/
+  }
   getPost(){
     this.userService.getPosts(this.user.email)
           .subscribe(

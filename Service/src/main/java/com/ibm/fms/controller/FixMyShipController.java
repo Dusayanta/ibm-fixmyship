@@ -1,5 +1,6 @@
 package com.ibm.fms.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,19 +66,21 @@ public class FixMyShipController {
 	}
 	
 	@GetMapping("mostlike")
-	public ResponseEntity<String> mostLike(){
+	public ResponseEntity<?> mostLike(){
 		String mxl=fmsService.maxLike();
-		System.out.println("max like "+mxl);
+		List mxll=new ArrayList();
+		mxll.add(mxl);
+		System.out.println("max like "+mxl+" list is:  "+mxll);
 		//System.out.println("Like" +like.getUid());
-		return new ResponseEntity<>(mxl, HttpStatus.OK);
-		//return new ResponseEntity<>(HttpStatus.CREATED);
+		//return mxl;
+		return new ResponseEntity<>(mxll, HttpStatus.OK);
 	}
 	
 		
 	@GetMapping("likes")
 	public ResponseEntity<List> getLikes(){
 		List countl=fmsService.getLike();
-		System.out.println(countl);
+		System.out.println("Counts: "+countl);
 		return new ResponseEntity<>(countl, HttpStatus.OK);
 		//return countl;
 	}
