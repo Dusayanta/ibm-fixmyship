@@ -6,10 +6,12 @@ import { RegisterComponent } from './register/register.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { NotfoundComponent } from "./notfound/notfound.component";
 import { PostsComponent } from "./posts/posts.component";
+import { AppComponent } from './app.component';
+//import { LandingPageComponent } from './landing-page/landing-page.component';
 
 const appRoutes: Routes = [
-    { path: '', component: HomeComponent },
-    { path: 'home', component: HomeComponent},
+    { path: 'main', component: AppComponent},
+    { path: '', component: HomeComponent},
     { path: 'selfposts', component: PostsComponent},
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
