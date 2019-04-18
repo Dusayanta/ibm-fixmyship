@@ -8,8 +8,8 @@ import { User } from '../_models/user';
 import { UserService } from '../_services/user.service';
 import { AuthenticationService } from '../_services/authentication.service';
 import { AlertService } from '../_services/alert.service';
-import * as jwt_decode from 'jwt-decode';
 import { PostModel } from '../_models/postModel';
+import { PostService } from '../_services/post.service';
 
 @Component({
   selector: 'app-home',
@@ -31,7 +31,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     private authenticationService: AuthenticationService,
     private userService: UserService,
     private router: Router,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private postService: PostService
   ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(user => {
       this.currentUser = user;
@@ -39,9 +40,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // this.loadUser();
-    // this.getPost();
-    this.getMyPosts();
+    this.getPostByOthers();
   }
 
   ngOnDestroy() {
@@ -49,39 +48,26 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.currentUserSubscription.unsubscribe();
   }
 
-  // deleteUser(id: number) {
-  //     this.userService.delete(id).pipe(first()).subscribe(() => {
-  //         this.loadAllUsers()
-  //     });
-  // }
-
   private loadUser() {
-    try {
-      const data = jwt_decode(this.currentUser.token);
-      this.user.firstName = data.firstName;
-      this.user.lastName = data.lastName;
-      this.user.email = data.email;
-    } catch (error) {
-      console.log(error);
-    }
+    this.userService.getCurrentUserDetails()
+      .subscribe(
+        data => {
+          console.log(data);
+        },
+        error => {
+          console.log(error);
+        }
+      );
   }
   post() {
     if (this.title.value !== '' && this.description.value !== '') {
 
-      // let postInfo ={
-      //   title: this.title.value,
-      //   description: this.description.value,
-      //   byEmail: this.user.email,
-      //   byFirstName: this.user.firstName
-      // }
-
-      let postInfo = {
+      const postInfo = {
         title: this.title.value,
-        description: this.description.value,
-        uid: 1
-      }
+        description: this.description.value
+      };
 
-      this.userService.writePost(postInfo)
+      this.postService.writePost(postInfo)
         .pipe(first())
         .subscribe(
           data => {
@@ -92,33 +78,15 @@ export class HomeComponent implements OnInit, OnDestroy {
             this.alertService.error(error);
           });
     }
-    this.getMyPosts();
   }
-  getPost() {
-    this.userService.getPosts(this.user.email)
+  getPostByOthers() {
+    this.postService.getPostByOthers(this.user.email)
       .subscribe(
         data => {
-          // this.alertService.success('Post Added', true);
           this.postsByOthers = data;
-          // console.log('Inside: '+this.postsByOthers);
-          //  console.log(data)
-          // this.router.navigate(['/login']);
         },
         error => {
           this.alertService.error(error);
         });
-    console.log(this.postsByOthers);
-    // return this.postsByOthers;
-  }
-  getMyPosts() {
-    this.userService.getMyPosts()
-      .subscribe(
-        data => {
-          this.myPosts = data;
-        },
-        error => {
-          this.alertService.error(error);
-        }
-      );
   }
 }

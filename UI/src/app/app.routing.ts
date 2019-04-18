@@ -8,9 +8,9 @@ import { NotfoundComponent } from "./notfound/notfound.component";
 import { PostsComponent } from "./posts/posts.component";
 
 const appRoutes: Routes = [
-    { path: '', component: HomeComponent },
-    { path: 'home', component: HomeComponent},
-    { path: 'selfposts', component: PostsComponent},
+    { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+    { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+    { path: 'selfposts', component: PostsComponent, canActivate: [AuthGuard]},
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
 
