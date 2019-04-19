@@ -1,5 +1,6 @@
 package com.ibm.fms.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +15,6 @@ public interface FixMyShipService {
 //Debo part-- Like count:
 	int addLike(Like like);
 	String maxLike();
-	List getLike();
+	List<Object[]> getLike();
 	
 }

@@ -5,7 +5,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
@@ -72,10 +74,11 @@ public class FixMyShipServiceImpl implements FixMyShipService {
 	   
 	}
 	
-	public synchronized List getLike()
+	public synchronized List<Object[]> getLike()
 	{
 		
-		List count = entityManager.createQuery("select count(*) from Like group by cid ",Long.class).getResultList();
+		List<Object[]> count = entityManager.createQuery("select count(*),cid from Like group by cid ",Object[].class).getResultList();
+		//HashMap count = (HashMap) entityManager.createQuery("select count(*),cid from Like group by cid ",Object[].class).getResultStream();
 		
 		return count;
 	   

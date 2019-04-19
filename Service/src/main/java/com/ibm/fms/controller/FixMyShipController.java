@@ -1,6 +1,7 @@
 package com.ibm.fms.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,7 +79,7 @@ public class FixMyShipController {
 	
 		
 	@GetMapping("likes")
-	public ResponseEntity<List> getLikes(){
+	public ResponseEntity<?> getLikes(){
 		List countl=fmsService.getLike();
 		System.out.println("Counts: "+countl);
 		return new ResponseEntity<>(countl, HttpStatus.OK);

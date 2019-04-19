@@ -54,7 +54,15 @@
                 <div>{{post.description}}</div>
               </div>
               <div class="card-footer"><a href="#">Actions</a></div>
-              <button class="btn btn-danger btn-xs" (click)="likePost(post.id)">Like {{myLikes[i]}}</button>
+              <div *ngFor="let like of myLikes;index as i">
+                  <span *ngIf="myLikes[i][1]==post.id">{{myLikes[i][0]}}</span>
+                </div>
+              <button class="btn btn-danger btn-xs" (click)="likePost(post.id)">
+                  
+               <div>Like</div>
+              
+              </button>
+              
             </div>
       </div>
       <button class="btn btn-danger btn-xs" (click)="getNames()">Name</button>
