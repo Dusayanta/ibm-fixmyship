@@ -1,10 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { User } from "../_models/user";
 import { AuthenticationService } from "../_services/authentication.service";
 import { Router } from '@angular/router';
 import * as jwt_decode from "jwt-decode";
-import { UserService } from '../_services/user.service';
-import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -12,32 +10,32 @@ import { Subscription } from 'rxjs';
 })
 export class NavbarComponent implements OnInit {
 
-  user: User;
-  userDetailsSubs: Subscription;
-  isLoggedInFlag: boolean;
+  user = {firstName: '',lastName:'',email:''}
   constructor(
     private router: Router,
-    private authenticationService: AuthenticationService,
-    private userService: UserService
-  ) {
-    this.authenticationService.currentUser.subscribe(
-      x => {
-        if(x){
-          this.isLoggedInFlag = true;
-          this.userService.getCurrentUserDetails()
-        .subscribe(data => this.user = data);
-        }
-
-      }
-      );
-   }
+    private authenticationService : AuthenticationService,
+  ) { }
 
   ngOnInit() {
+  }
+  isLoggedIn(){
+    let currentUser:User = this.authenticationService.currentUserValue
+    if(currentUser){
+      try {
+        const data = jwt_decode(currentUser.token)
+        this.user.firstName = data.firstName
+        this.user.lastName = data.lastName
+        this.user.email = data.email
+        return true;
+      } catch (error) {
+        console.log(error)
       }
+    }
+    else
+      return false;
+  }
   logout() {
     this.authenticationService.logout();
-    this.isLoggedInFlag = false;
     this.router.navigate(['/login']);
-  }
 }
-
+}

@@ -1,33 +1,21 @@
 <div class="sticky-top mb-3">
-  <nav
-    class="navbar navbar-expand-lg navbar-dark bg-danger justify-content-center p-3 mb-3"
-    *ngIf="!isLoggedInFlag"
-  >
-    <a routerLink="/home" class="navbar-brand"
-      ><span class="h3">Fix My 'SHIP</span></a
-    >
+  <nav class="navbar navbar-expand-lg navbar-dark bg-danger justify-content-center p-3 mb-3" *ngIf="!isLoggedIn()">
+    <a routerLink='/home' class="navbar-brand"><span class="h3">Fix My 'SHIP</span></a>
   </nav>
-  <nav
-    class="navbar navbar-expand navbar-dark bg-danger p-3 mb-5"
-    *ngIf="isLoggedInFlag"
-  >
-    <a routerLink="/" class="navbar-brand"
-      ><span class="h5">Fix My 'SHIP</span></a
-    >
+  <nav class="navbar navbar-expand navbar-dark bg-danger p-3 mb-5" *ngIf="isLoggedIn()">
+      <a routerLink='/' class="navbar-brand"><span class="h5">Fix My 'SHIP</span></a>
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" routerLink="/">Home</a>
+          <a class="nav-link" routerLink="/">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/selfposts">Your Posts</a>
+          <a class="nav-link" routerLink="/selfposts">Your Posts</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/profile"
-          >{{ user?.firstname }}&nbsp;<span class="fa fa-caret-down"></span
-        ></a>
+          <a class="nav-link" routerLink="/profile">{{user.firstName}}&nbsp;<span class="fa fa-caret-down"></span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" (click)="logout()">Logout</a>
+          <a class="nav-link" (click)="logout()">Logout</a>
       </li>
     </ul>
   </nav>

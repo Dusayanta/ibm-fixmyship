@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import * as jwt_decode from "jwt-decode";
 
+import { UserService } from "../_services/user.service";
 import { PostModel } from '../_models/postModel';
 import { AlertService } from '../_services/alert.service';
-import { PostService } from '../_services/post.service';
+import { AuthenticationService } from '../_services/authentication.service';
+import { User } from "../_models/user";
 
 @Component({
   selector: 'app-posts',
@@ -12,19 +14,33 @@ import { PostService } from '../_services/post.service';
 })
 export class PostsComponent implements OnInit {
 
-  myPosts: PostModel[];
+  myPosts:PostModel[];
+  email;
 
   constructor(
+    private userService: UserService,
     private alertService: AlertService,
-    private postService: PostService
+    private authenticationService: AuthenticationService
     ) { }
 
   ngOnInit() {
+    this.getUserEmail();
+    console.log('email: '+this.email)
     this.getMyPosts();
   }
 
+  getUserEmail(){
+    try {
+      let currentUser:User = this.authenticationService.currentUserValue
+      const data = jwt_decode(currentUser.token)
+      console.log('running')
+      this.email = data.email
+    } catch (error) {
+      console.log(error)
+    }
+  }
   getMyPosts(){
-    this.postService.getMyPosts()
+    this.userService.getSelfPosts(this.email)
     .subscribe(
       data =>{
         this.myPosts = data;

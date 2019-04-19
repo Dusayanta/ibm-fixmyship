@@ -53,19 +53,8 @@ export class RegisterComponent implements OnInit {
           return;
       }
 
-      // building JSON for form data
-      const formData = {
-        firstname : this.f.firstName.value,
-        lastname : this.f.lastName.value,
-        email : this.f.email.value,
-        username : this.f.email.value,
-        password : this.f.password.value,
-        phone : this.f.phone.value,
-        gender : this.f.gender.value
-      };
-
       this.loading = true;
-      this.userService.register(formData)
+      this.userService.register(this.registerForm.value)
           .pipe(first())
           .subscribe(
               data => {

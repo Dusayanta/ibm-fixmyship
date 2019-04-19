@@ -62,14 +62,8 @@ export class LoginComponent implements OnInit {
           this.router.navigate([this.returnUrl]);
         },
         error => {
-          if(error === 'Bad credentials'){
-            this.alertService.error('Invalid Username / Password');
-          }
-          else{
-            this.alertService.error(error);
-          }
+          this.alertService.error(error);
           this.loading = false;
-          console.log(error);
         }
       );
   }
