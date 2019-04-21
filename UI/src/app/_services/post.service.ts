@@ -16,7 +16,7 @@ export class PostService{
       return this.http.post(`${this.config.apiUrl}`, postInfo);
     }
 
-    getPostByOthers(email): Observable<PostModel[]>{
+    getPostByOthers(): Observable<PostModel[]>{
       return this.http
       .get<PostModel[]>(`${this.config.apiUrl}/others`)
       .pipe(map((response) => response));
