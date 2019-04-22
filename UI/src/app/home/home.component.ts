@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   user = { firstName: '', lastName: '', email: '' };
   title = new FormControl('');
   description = new FormControl('');
-  postsByOthers: PostModel[];
+  //postsByOthers: PostModel[];
 
   myPosts: PostModel[];
 
@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.getPostByOthers();
+    // this.getPostByOthers();
   }
 
   ngOnDestroy() {
@@ -79,14 +79,14 @@ export class HomeComponent implements OnInit, OnDestroy {
           });
     }
   }
-  getPostByOthers() {
-    this.postService.getPostByOthers(this.user.email)
-      .subscribe(
-        data => {
-          this.postsByOthers = data;
-        },
-        error => {
-          this.alertService.error(error);
-        });
-  }
+  // getPostByOthers() {
+  //   this.postService.getPostByOthers(this.user.email)
+  //     .subscribe(
+  //       data => {
+  //         this.postsByOthers = data;
+  //       },
+  //       error => {
+  //         this.alertService.error(error);
+  //       });
+  // }
 }

@@ -1,0 +1,105 @@
+<div *ngIf="post">
+  <div class="card shadow rounded bg-white d-block ml-4">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12">
+              <div class="card-title">
+                  <h5>{{post.title}}</h5>
+              </div>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card-text">
+                    <p>{{post.description}}</p>
+                  </div>
+            </div>
+        </div>
+          <div class="row">
+              <div class="col-12">
+                  <div class="card-text mt-2 mb-2">
+                      <div class="float-right"><p>User ID -{{post.createdBy}}</p></div>
+                    </div>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-6"><a (click)="toggleCommentBox()" style="cursor: pointer;"><span class="text-info"><i class="far fa-comments"></i>&nbsp;Suggest</span></a></div>
+            <div class="col-6"><span class="text-warning"><i class="fas fa-rss"></i>&nbsp;Follow</span></div>
+          </div>
+          <div *ngIf="showCommentBox" class="row mt-3">
+            <div class="col-12">
+              <div class="card shadow rounded d-block">
+                <div class="card-header">
+                  <h6>What are your thoughts?</h6>
+                </div>
+                <form>
+                    <div class="card-body bg-white">
+                      <div class="text-muted mb-1">
+                        <span>Write Minimum 30 characters</span>
+                      </div>
+                        <div class="card-text">
+                          <textarea class="form-control" name="comment" id="comment" cols="5" rows="10" placeholder="Write Your Answer" pattern=".{30,}" required title="Minimum 30 characters" [(ngModel)]="comment"></textarea>
+                        </div>
+                        <div *ngIf="errorMsg" class="card-text">
+                          <span class="text-danger">{{errorMsg}}</span>
+                        </div>
+                      </div>
+                      <div class="card-footer">
+                        <button type="button" class="btn btn-outline-primary btn-block" (click)="submitComment()">Submit</button>
+                      </div>
+                </form>
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+  <div class="ml-4 mt-5">
+    <h5>{{numberOfComments}} Suggestions/Advises</h5>
+    <hr>
+  </div>
+  <div *ngIf="commentsByPostId">
+    <div *ngFor="let comment of commentsByPostId" class="card shadow rounded d-block bg-white ml-4 my-1">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="card-text">
+              <p>{{comment.comment}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="card-text">
+              <div class="float-right">
+                <p>User ID - {{comment.createdBy}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6"><span class="text-primary"><a (click)="upVote(comment.id)"><i class="far fa-thumbs-up">&nbsp;Upvote</i></a></span></div>
+          <div class="col-6"><span class="text-danger"><a (click)="downVote(comment.id)"><i class="far fa-thumbs-down">&nbsp;Downvote</i></a></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!commentsByPostId">
+    <div class="ml-4 my-1">
+      <div class="row">
+        <div class="col-6">
+          <h4><a (click)="toggleCommentBox()" class="btn btn-primary btn-block btn-lg text-white">Be First to Suggest</a></h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!post">
+  <div class="card text-center bg-white shadow rounded d-block ml-4">
+    <div class="card-body">
+      <div class="card-title">
+        <h4>No Post available..!!</h4>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,60 +1,72 @@
-<div class="container">
-  <div class="row">
-    <div class="col-lg-5">
-      <div class="position-fixed">
-        <div class="card">
-          <div class="card-header">
-            <h4>What is your issue?</h4>
-          </div>
-          <div class="card-body">
-            <div class="form-group row">
-              <label for="title" class="col-md-4">Title:</label>
-              <div class="col-md-8">
-                <input type="text" [formControl]="title" class="form-control form-control-lg">
-              </div>
+<div class="container-fluid">
+    <div class="row py-1 ml-5">
+      <div class="col-3 position-fixed">
+          <div class="card shadow rounded text-center bg-white">
+            <div class="card-body bg-white">
+              <h5 class="card-title">My Profile</h5>
+              <p class="card-text my-2">
+                <img src="../../assets/avatar.png" height="110px" width="110px" alt="Profile Picture" />
+              </p>
             </div>
-            <div class="form-group row">
-              <label for="description" class="col-md-4">Description:</label>
-              <div class="col-md-8">
-                <textarea class="form-control form-control-lg" [formControl]="description" cols="15"
-                  rows="4"></textarea>
-              </div>
+            <p class="offset-1 col-10 mb-2 card-text">
+              <button class="btn btn-outline-dark btn-block"><i class="fa fa-gear"></i>&nbsp;Settings</button>
+            </p>
+          </div>
+          <div class="row mt-4">
+            <div class="col-6 mx-auto">
+              <button type="button" class="btn btn-outline-info btn-block" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-edit"></i>&nbsp;Add Your Issue</button>
             </div>
           </div>
-          <div class="card-footer">
-            <div class="col-md-5 float-right">
-              <button class="btn btn-danger btn-lg btn-block" (click)="post()">Post</button>
-            </div>
-          </div>
-        </div>
       </div>
-    </div>
-    <div class="col-lg-7">
-      <div *ngIf="postsByOthers">
-        <div *ngFor="let post of postsByOthers">
-          <div class="card m-2 p-2">
-            <div class="card-header"><a href="#" class="text-dark">{{post.title}}</a></div>
-            <div class="card-body">
-              <div>{{post.description}}</div>
-              <div>
-                <div class="float-right">-<i>{{post.createdBy}}</i></div>
-              </div>
+      <div class="offset-3 col-5">
+          <router-outlet></router-outlet>
+      </div>
+      <div class="offset-8 col-3 position-fixed">
+            <div class="card shadow rounded text-center bg-white">
+                <div class="card-body">
+                    <h5 class="card-title">Follow Requests</h5>
+                    <p class="card-text my-2">
+                        <img src="../../assets/avatar-girl.png" height="110px" width="110px" alt="Others profile picture">
+                    </p>
+                    <h5 class="my-2">Maisie Williams</h5>
+                    <div class="row ">
+                      <div class="offset-2 col-4">
+                          <button class="btn btn-outline-success btn-block"><i class="fa fa-check"></i></button>
+                      </div>
+                        <div class="col-4">
+                            <button class="btn btn-outline-danger btn-block"><i class="fas fa-times"></i></button>
+                        </div>
+                      </div>
+                </div>
             </div>
-            <div class="card-footer"><a href="#">Read More..</a></div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
-    <!-- <div *ngIf="myPosts" class="col-md-5 m-4 p-2">
-      <div *ngFor="let post of myPosts">
-          <div class="card m-2 p-2">
-              <div class="card-header"><a href="#" class="text-dark">{{post.title}}</a></div>
-              <div class="card-body">
-                <div>{{post.description}}</div>
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">What is your issue?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control form-control-lg" [formControl]="title" name="title">
               </div>
-              <div class="card-footer"><a href="#">Actions</a></div>
-            </div>
+              <div class="form-group">
+                <label for="description">Description</label>
+                <textarea class="form-control form-control-lg" [formControl]="description" name="description" id="description" cols="10" rows="6"></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" (click)="post()" data-dismiss="modal">Submit Post</button>
+          </div>
+        </div>
       </div>
     </div>
-</div> -->

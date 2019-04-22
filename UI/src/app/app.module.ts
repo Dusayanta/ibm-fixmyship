@@ -16,6 +16,8 @@ import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { PostsComponent } from './posts/posts.component';
+import { PostDetailsComponent } from './home/post-details/post-details.component';
+import { AllPostsComponent } from './home/all-posts/all-posts.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { PostsComponent } from './posts/posts.component';
     RegisterComponent,
     HomeComponent,
     NotfoundComponent,
-    PostsComponent
+    PostsComponent,
+    PostDetailsComponent,
+    AllPostsComponent
   ],
   imports: [
     BrowserModule,
