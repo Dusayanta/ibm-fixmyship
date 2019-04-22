@@ -5,6 +5,7 @@ import { User } from '../_models/user';
 import { PostModel } from "../_models/postModel";
 import { Observable, config } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { CommentModel } from '../_models/commentModel';
 
 @Injectable({ providedIn: 'root' })
 export class PostService{
@@ -25,6 +26,24 @@ export class PostService{
     getMyPosts(): Observable<PostModel[]>{
       return this.http
       .get<PostModel[]>(`${this.config.apiUrl}/my`)
+      .pipe(map(response => response));
+    }
+
+    getPostById(id: number){
+      return this.http
+      .get<PostModel>(`${this.config.apiUrl}/${id}`)
+      .pipe(map(response => response));
+    }
+
+    getCommentsByPostId(pid: number){
+      return this.http
+      .get<CommentModel[]>(`${this.config.apiUrl}/${pid}/comment`)
+      .pipe(map(response => response));
+    }
+
+    writeComment(commentObj){
+      return this.http
+      .post(`${this.config.apiUrl}/comment`, commentObj)
       .pipe(map(response => response));
     }
     // getMyPosts(): Observable<PostModel[]>{

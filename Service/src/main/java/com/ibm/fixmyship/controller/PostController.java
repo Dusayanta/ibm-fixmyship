@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ibm.fixmyship.model.Comment;
 import com.ibm.fixmyship.model.Post;
+import com.ibm.fixmyship.repository.CommentRepository;
 import com.ibm.fixmyship.security.CurrentUser;
 import com.ibm.fixmyship.security.UserPrincipal;
+import com.ibm.fixmyship.service.CommentService;
 import com.ibm.fixmyship.service.PostService;
 import com.ibm.fixmyship.service.UserService;
 
@@ -29,6 +32,9 @@ public class PostController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private CommentService commentService;
 	
 	@GetMapping
 	public ResponseEntity<List<Post>> getAllPosts(){
@@ -77,4 +83,25 @@ public class PostController {
 		}
 		return new ResponseEntity<>(postByOthers, HttpStatus.OK);
 	}
+	
+	@PostMapping("/comment")
+	public ResponseEntity<?> saveComment(@RequestBody Comment comment, @CurrentUser UserPrincipal currentUser){
+		comment.setUid(currentUser.getId());
+		Comment savedComment = commentService.save(comment);
+		if(savedComment == null) {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
+		return new ResponseEntity<>(savedComment, HttpStatus.OK);
+		
+	}
+	
+	@GetMapping("/{pid}/comment")
+	public ResponseEntity<?> getCommentsByPostId(@PathVariable Long pid) {
+		List<Comment> comments = commentService.findByPid(pid);
+		if(comments.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(comments, HttpStatus.OK);
+	}
+	
 }
