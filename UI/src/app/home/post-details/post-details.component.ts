@@ -20,6 +20,16 @@ export class PostDetailsComponent implements OnInit {
   errorMsg: string;
   commentsByPostId: CommentModel[];
   numberOfComments: number;
+  fragment;
+
+  iconClassLike = 'far fa-thumbs-up';
+  iconClassDislike = 'far fa-thumbs-down';
+
+  solidThumbsUp = 'fas fa-thumbs-up';
+  regularThumbsUp = 'far fa-thumbs-up';
+
+  solidThumbsDown = 'fas fa-thumbs-down';
+  regularThumbsDown = 'far fa-thumbs-down';
 
   constructor(private route: ActivatedRoute,
     private postService: PostService,
@@ -27,6 +37,10 @@ export class PostDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.id = +this.route.snapshot.paramMap.get('id');
+    this.fragment = this.route.snapshot.fragment;
+    if (this.fragment === 'commentSection') {
+      this.showCommentBox = true;
+    }
     this.getPostById();
     this.getCommentsByPostId();
   }
@@ -65,17 +79,17 @@ export class PostDetailsComponent implements OnInit {
         pid: this.id
       };
       this.postService.writeComment(commentObj)
-      .subscribe(
-        data =>{
-          this.comment = '';
-          this.showCommentBox = false;
-          this.alertService.success('Comment Added Successfully..');
-          this.getCommentsByPostId();
-        },
-        error =>{
-          this.alertService.error(error);
-        }
-      );
+        .subscribe(
+          data => {
+            this.comment = '';
+            this.showCommentBox = false;
+            this.alertService.success('Comment Added Successfully..');
+            this.getCommentsByPostId();
+          },
+          error => {
+            this.alertService.error(error);
+          }
+        );
     }
     else {
       if (this.comment === undefined || this.comment.length <= 0) {
@@ -87,11 +101,67 @@ export class PostDetailsComponent implements OnInit {
     }
   }
 
-  upVote(id: number){
-    console.log('comment '+id+' upVoted');
+  // toggleIconClassLike(){
+  //   if(this.iconClassLike === 'far fa-thumbs-up'){
+  //     this.iconClassLike = 'fas fa-thumbs-up';
+  //   }
+  //   else{
+  //     this.iconClassLike = 'far fa-thumbs-up';
+  //   }
+  // }
+
+  // toggleIconClassDislike(){
+  //   if(this.iconClassDislike === 'far fa-thumbs-down'){
+  //     this.iconClassDislike = 'fas fa-thumbs-down';
+  //   }
+  //   else{
+  //     this.iconClassDislike = 'far fa-thumbs-down';
+  //   }
+  // }
+
+  upVote(id: number) {
+
+    this.postService.likePost({cid: id})
+    .subscribe(
+      data => console.log(data),
+      error => console.log(error)
+    );
+
+    const like = document.getElementById(`like${id}`);
+    const dislike = document.getElementById(`dislike${id}`);
+
+    if (like.className === this.regularThumbsUp) {
+      like.className = this.solidThumbsUp;
+    }
+    else {
+      like.className = this.regularThumbsUp;
+    }
+
+    if (dislike.className === this.solidThumbsDown) {
+      dislike.className = this.regularThumbsDown;
+    }
   }
 
-  downVote(id: number){
-    console.log('comment '+id+' downVoted');
+  downVote(id: number) {
+
+    this.postService.dislikePost({cid: id})
+    .subscribe(
+      data => console.log(data),
+      error => console.log(error)
+    );
+
+    const dislike = document.getElementById(`dislike${id}`);
+    const like = document.getElementById(`like${id}`);
+
+    if (dislike.className === this.regularThumbsDown) {
+      dislike.className = this.solidThumbsDown;
+    }
+    else {
+      dislike.className = this.regularThumbsDown;
+    }
+
+    if (like.className === this.solidThumbsUp) {
+      like.className = this.regularThumbsUp;
+    }
   }
 }

@@ -46,6 +46,18 @@ export class PostService{
       .post(`${this.config.apiUrl}/comment`, commentObj)
       .pipe(map(response => response));
     }
+
+    likePost(cid){
+      return this.http
+      .post(`${this.config.apiUrl}/comment/like`, cid)
+      .pipe(map(response => response));
+    }
+
+    dislikePost(cid){
+      return this.http
+      .post(`${this.config.apiUrl}/comment/dislike`, cid)
+      .pipe(map(response => response));
+    }
     // getMyPosts(): Observable<PostModel[]>{
     //   return this.http
     //   .get<PostModel[]>(`${this.config.apiUrl}`)
