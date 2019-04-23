@@ -105,7 +105,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   likePost(id){
     const likeObj = {
       cid: id,
-      uid: 3
+      uid: 1
     };
     this.userService.likeMyPost(likeObj).subscribe(res => {
       this.getMyPosts();

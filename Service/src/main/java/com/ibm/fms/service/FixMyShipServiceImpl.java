@@ -17,7 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ibm.fms.dao.FixMyShipDAO;
+import com.ibm.fms.dao.FixMyShipDisLikeDAO;
 import com.ibm.fms.dao.FixMyShipLikeDAO;
+import com.ibm.fms.model.DisLike;
 import com.ibm.fms.model.Like;
 import com.ibm.fms.model.Post;
 import com.ibm.fms.model.Users;
@@ -30,6 +32,9 @@ public class FixMyShipServiceImpl implements FixMyShipService {
 	private FixMyShipDAO fmsDAO;
 	@Autowired
 	private FixMyShipLikeDAO fmsLikeDAO;
+	@Autowired
+	private FixMyShipDisLikeDAO fmsDisLikeDAO;
+	
 
 	@Override
 	public synchronized boolean addPost(Post post) {
@@ -51,12 +56,46 @@ public class FixMyShipServiceImpl implements FixMyShipService {
 	public synchronized int addLike(Like like) {
 		
 		List<Integer> count = entityManager.createQuery("select uid from Like where cid="+like.getCid(),Integer.class).getResultList();
+		System.out.println("Countsssss "+count);
 		if(!count.contains(like.getUid()))
 		{
 			fmsLikeDAO.save(like);
 		}
+		else
+		{
+			List id=entityManager.createQuery("select id from Like where uid="+like.getUid()+"and cid="+like.getCid(),Integer.class).getResultList();
+			System.out.println("Idssss "+id);
+			fmsLikeDAO.deleteById((Integer) id.get(0));
+			//entityManager.createQuery("select uid from Like where cid="+like.getCid(),Integer.class);
+			//List del=entityManager.createQuery("delete from Like where uid="+like.getUid()).getResultList();
+		}
 		return 0;
 	}
+	
+   	@Override
+	public synchronized int addDisLike(DisLike dislike) {
+		
+		List<Integer> count = entityManager.createQuery("select uid from DisLike where cid="+dislike.getCid(),Integer.class).getResultList();
+		System.out.println("Dislike Counts "+count);
+		if(!count.contains(dislike.getUid()))
+		{
+			fmsDisLikeDAO.save(dislike);
+			
+			List id=entityManager.createQuery("select id from DisLike where uid="+dislike.getUid()+"and cid="+dislike.getCid(),Integer.class).getResultList();
+			System.out.println("Dislike id "+id);
+			fmsLikeDAO.deleteById((Integer) id.get(0));
+		}
+		else
+		{
+			List id=entityManager.createQuery("select id from DisLike where uid="+dislike.getUid()+"and cid="+dislike.getCid(),Integer.class).getResultList();
+			System.out.println(" Dislike Ids "+id);
+			fmsDisLikeDAO.deleteById((Integer) id.get(0));
+			//entityManager.createQuery("select uid from Like where cid="+like.getCid(),Integer.class);
+			//List del=entityManager.createQuery("delete from Like where uid="+like.getUid()).getResultList();
+		}
+		return 0;
+	}
+	
 	
 	public synchronized String maxLike()
 	{

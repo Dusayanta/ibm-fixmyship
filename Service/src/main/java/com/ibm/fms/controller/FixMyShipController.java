@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ibm.fms.model.DisLike;
 import com.ibm.fms.model.Like;
 import com.ibm.fms.model.Post;
 import com.ibm.fms.service.FixMyShipService;
@@ -65,6 +66,18 @@ public class FixMyShipController {
 		//System.out.println("Like" +like.getUid());
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
+	
+// 	DisLike
+	
+	@PostMapping("comment/dislike")
+	public ResponseEntity<Void> addDisLike(@RequestBody DisLike dislike){
+		int flag = fmsService.addDisLike(dislike);
+		//List mxl=fmsService.maxLike();
+		//System.out.println("max like "+mxl);
+		//System.out.println("Like" +like.getUid());
+		return new ResponseEntity<>(HttpStatus.CREATED);
+	}	
+	
 	
 	@GetMapping("mostlike")
 	public ResponseEntity<?> mostLike(){
