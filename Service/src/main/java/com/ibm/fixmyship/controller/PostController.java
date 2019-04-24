@@ -15,11 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ibm.fixmyship.model.Comment;
+import com.ibm.fixmyship.model.Dislike;
+import com.ibm.fixmyship.model.Like;
 import com.ibm.fixmyship.model.Post;
 import com.ibm.fixmyship.repository.CommentRepository;
+import com.ibm.fixmyship.repository.LikeRepository;
 import com.ibm.fixmyship.security.CurrentUser;
 import com.ibm.fixmyship.security.UserPrincipal;
 import com.ibm.fixmyship.service.CommentService;
+import com.ibm.fixmyship.service.DislikeService;
+import com.ibm.fixmyship.service.LikeService;
 import com.ibm.fixmyship.service.PostService;
 import com.ibm.fixmyship.service.UserService;
 
@@ -29,79 +34,183 @@ public class PostController {
 
 	@Autowired
 	private PostService postService;
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private CommentService commentService;
-	
+
+	@Autowired
+	private LikeService likeService;
+
+	@Autowired
+	private DislikeService dislikeService;
+
 	@GetMapping
-	public ResponseEntity<List<Post>> getAllPosts(){
+	public ResponseEntity<List<Post>> getAllPosts() {
 		List<Post> list = postService.getAllPosts();
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<Post> findPost(@PathVariable Long id){
+	public ResponseEntity<Post> findPost(@PathVariable Long id) {
 		Optional<Post> post = postService.findById(id);
-		if(post.isPresent()) {
-			return new ResponseEntity<>(post.get(),HttpStatus.OK);
+		if (post.isPresent()) {
+			return new ResponseEntity<>(post.get(), HttpStatus.OK);
 		}
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);		
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-	
+
 	@PostMapping
-	public ResponseEntity<?> addPost(@RequestBody Post post, @CurrentUser UserPrincipal currentUser){
-		System.out.println(currentUser.getId());
+	public ResponseEntity<?> addPost(@RequestBody Post post, @CurrentUser UserPrincipal currentUser) {
+		//System.out.println(currentUser.getId());
+		post.setCommentCount(0L);
 		post.setUid(currentUser.getId());
 		Post gotPost = postService.save(post);
-		if(gotPost == null) {
+		if (gotPost == null) {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 		return new ResponseEntity<>(gotPost, HttpStatus.CREATED);
 	}
-	
+
 	@GetMapping("/others")
-	public ResponseEntity<?> getPostByOthers(@CurrentUser UserPrincipal currentUser){
+	public ResponseEntity<?> getPostByOthers(@CurrentUser UserPrincipal currentUser) {
 		List<Long> userIds = new ArrayList<>();
 		userIds.add(currentUser.getId());
 		List<Post> postByOthers = postService.findByUidNotIn(userIds);
-		if(postByOthers.isEmpty()) {
+		if (postByOthers.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<>(postByOthers, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/my")
-	public ResponseEntity<?> getMyPosts(@CurrentUser UserPrincipal currentUser){
+	public ResponseEntity<?> getMyPosts(@CurrentUser UserPrincipal currentUser) {
 		List<Long> userIds = new ArrayList<>();
 		userIds.add(currentUser.getId());
 		List<Post> postByOthers = postService.findByUidIn(userIds);
-		if(postByOthers.isEmpty()) {
+		if (postByOthers.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<>(postByOthers, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/comment")
-	public ResponseEntity<?> saveComment(@RequestBody Comment comment, @CurrentUser UserPrincipal currentUser){
+	public ResponseEntity<?> saveComment(@RequestBody Comment comment, @CurrentUser UserPrincipal currentUser) {
 		comment.setUid(currentUser.getId());
 		Comment savedComment = commentService.save(comment);
-		if(savedComment == null) {
+		if (savedComment == null) {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 		return new ResponseEntity<>(savedComment, HttpStatus.OK);
-		
+
 	}
-	
+
 	@GetMapping("/{pid}/comment")
 	public ResponseEntity<?> getCommentsByPostId(@PathVariable Long pid) {
 		List<Comment> comments = commentService.findByPid(pid);
-		if(comments.isEmpty()) {
+		if (comments.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<>(comments, HttpStatus.OK);
 	}
+
+	@PostMapping("/comment/like")
+	public ResponseEntity<?> toggleLike(@RequestBody Like like, @CurrentUser UserPrincipal currentUser) {
+		like.setUid(currentUser.getId());
+
+		// Checking for existing like with the current Comment id and User id
+		Boolean existsLike = likeService.existsByCidAndUid(like.getCid(), like.getUid());
+		Boolean existsDisLike = dislikeService.existsByCidAndUid(like.getCid(), like.getUid());
+
+		// If disLike exists for current Comment id and User id
+		if (existsDisLike) {
+
+			// Delete dislike
+			Long delDislikeCount = dislikeService.deleteByCidAndUid(like.getCid(), like.getUid());
+
+			// If dislike is removed
+			if (delDislikeCount >= 1) {
+				Like savedLike = likeService.save(like);
+				if (savedLike == null) {
+					return new ResponseEntity<>("Something went wrong while saving Like", HttpStatus.OK);
+				}
+				return new ResponseEntity<>("Dislike Removed and Like Saved", HttpStatus.OK);
+			}
+
+			// If unable to remove dislike
+			else {
+				return new ResponseEntity<>("Unable to remove Dislike", HttpStatus.OK);
+			}
+		}
+
+		// If like exists Remove Like
+		else if (existsLike) {
+			Long delLikeCount = likeService.deleteByCidAndUid(like.getCid(), like.getUid());
+			if (delLikeCount >= 1)
+				return new ResponseEntity<>("Like removed", HttpStatus.OK);
+			return new ResponseEntity<>("Something went wrong while removing like", HttpStatus.OK);
+		}
+
+		// if like does not exist . Add the like
+		else {
+			Like savedLike = likeService.save(like);
+			return new ResponseEntity<>(savedLike, HttpStatus.OK);
+		}
+	}
+
+	@PostMapping("/comment/dislike")
+	public ResponseEntity<?> toggleDislike(@RequestBody Dislike disLike, @CurrentUser UserPrincipal currentUser){
+		disLike.setUid(currentUser.getId());
+		
+		Boolean existsDisLike = dislikeService.existsByCidAndUid(disLike.getCid(), disLike.getUid());
+		Boolean existsLike = likeService.existsByCidAndUid(disLike.getCid(), disLike.getUid());
+		
+		// If dislike exists Remove dislike
+		if(existsDisLike) {
+			Long delDislikeCount = dislikeService.deleteByCidAndUid(disLike.getCid(), disLike.getUid());
+			if(delDislikeCount >=1)
+				return new ResponseEntity<>("Dislike removed", HttpStatus.OK);
+			return new ResponseEntity<>("Something went wrong while removing Dislike", HttpStatus.OK);
+		}
+		
+		else if(existsLike) {
+			
+			// Delete like
+			Long delLikeCount = likeService.deleteByCidAndUid(disLike.getCid(), disLike.getUid());
+			
+			if(delLikeCount >= 1) {
+				Dislike savedDisLike = dislikeService.save(disLike);
+				if(savedDisLike == null) {
+					return new ResponseEntity<>("Something went wrong while saving Dislike", HttpStatus.OK);
+				}
+				return new ResponseEntity<>("Like Removed and Dislike Saved", HttpStatus.OK);
+			}
+			else {
+				return new ResponseEntity<>("Unable to remove Like", HttpStatus.OK);
+			}
+		}
+		else {
+			Dislike savedDislike = dislikeService.save(disLike);
+			return new ResponseEntity<>(savedDislike, HttpStatus.OK);
+		}
+	}
 	
+	@GetMapping("/comment/like")
+	public ResponseEntity<?> getLikeByUid(@CurrentUser UserPrincipal currentUser){
+		List<Long> likesList = likeService.findCidByUid(currentUser.getId());
+		if(likesList.isEmpty())
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(likesList, HttpStatus.OK);
+	}
+	
+	@GetMapping("/comment/dislike")
+	public ResponseEntity<?> getDislikeByUid(@CurrentUser UserPrincipal currentUser){
+		List<Long> disLikesList = dislikeService.findCidByUid(currentUser.getId());
+		if(disLikesList.isEmpty())
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(disLikesList, HttpStatus.OK);
+	}
+
 }

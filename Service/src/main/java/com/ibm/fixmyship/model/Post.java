@@ -29,6 +29,8 @@ public class Post extends UserDateAudit{
 	
 	private Long uid;
 	
+	private Long commentCount;
+	
 	public Long getId() {
 		return id;
 	}
@@ -60,4 +62,14 @@ public class Post extends UserDateAudit{
 	public void setUid(Long uid) {
 		this.uid = uid;
 	}
+
+	public Long getCommentCount() {
+		return commentCount;
+	}
+
+	public void setCommentCount(Long commentCount) {
+		this.commentCount = commentCount;
+	}
+	
+	
 }
