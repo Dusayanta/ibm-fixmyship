@@ -22,6 +22,9 @@ export class PostDetailsComponent implements OnInit {
   numberOfComments: number;
   fragment;
 
+  likes: number[];
+  dislikes: number[];
+
   iconClassLike = 'far fa-thumbs-up';
   iconClassDislike = 'far fa-thumbs-down';
 
@@ -33,7 +36,10 @@ export class PostDetailsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private postService: PostService,
-    private alertService: AlertService) { }
+    private alertService: AlertService) {
+    this.getLikesList();
+    this.getDisLikeList();
+  }
 
   ngOnInit() {
     this.id = +this.route.snapshot.paramMap.get('id');
@@ -43,6 +49,12 @@ export class PostDetailsComponent implements OnInit {
     }
     this.getPostById();
     this.getCommentsByPostId();
+
+
+    //  const arr = [1,5,10,6];
+    //  let status = arr.indexOf(6) !== -1 ? true : false;
+    //  console.log(status);
+
   }
 
   getPostById() {
@@ -101,31 +113,13 @@ export class PostDetailsComponent implements OnInit {
     }
   }
 
-  // toggleIconClassLike(){
-  //   if(this.iconClassLike === 'far fa-thumbs-up'){
-  //     this.iconClassLike = 'fas fa-thumbs-up';
-  //   }
-  //   else{
-  //     this.iconClassLike = 'far fa-thumbs-up';
-  //   }
-  // }
-
-  // toggleIconClassDislike(){
-  //   if(this.iconClassDislike === 'far fa-thumbs-down'){
-  //     this.iconClassDislike = 'fas fa-thumbs-down';
-  //   }
-  //   else{
-  //     this.iconClassDislike = 'far fa-thumbs-down';
-  //   }
-  // }
-
   upVote(id: number) {
 
-    this.postService.likePost({cid: id})
-    .subscribe(
-      data => console.log(data),
-      error => console.log(error)
-    );
+    this.postService.likePost({ cid: id })
+      .subscribe(
+        data => console.log(data),
+        error => console.log(error)
+      );
 
     const like = document.getElementById(`like${id}`);
     const dislike = document.getElementById(`dislike${id}`);
@@ -144,11 +138,11 @@ export class PostDetailsComponent implements OnInit {
 
   downVote(id: number) {
 
-    this.postService.dislikePost({cid: id})
-    .subscribe(
-      data => console.log(data),
-      error => console.log(error)
-    );
+    this.postService.dislikePost({ cid: id })
+      .subscribe(
+        data => console.log(data),
+        error => console.log(error)
+      );
 
     const dislike = document.getElementById(`dislike${id}`);
     const like = document.getElementById(`like${id}`);
@@ -162,6 +156,53 @@ export class PostDetailsComponent implements OnInit {
 
     if (like.className === this.solidThumbsUp) {
       like.className = this.regularThumbsUp;
+    }
+  }
+
+  getLikesList() {
+    this.postService.getLikesList()
+      .subscribe(
+        data => {
+          console.log('Likes list');
+          this.likes = data;
+          console.log(data);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+  }
+
+  getDisLikeList() {
+    this.postService.getDisLikesList()
+      .subscribe(
+        data => {
+          console.log('Dislikes list');
+          this.dislikes = data;
+          console.log(data);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+  }
+
+  existsLike(id: number) {
+    if (this.likes === undefined || this.likes === null) {
+      return false;
+    } else {
+      let status = this.likes.indexOf(id) !== -1 ? true : false;
+      // console.log(id+' '+status);
+      return status;
+    }
+  }
+
+  existsDislike(id: number) {
+    if (this.dislikes === undefined || this.dislikes === null) {
+      return false;
+    } else {
+      let status = this.dislikes.indexOf(id) !== -1 ? true : false;
+      return status;
     }
   }
 }

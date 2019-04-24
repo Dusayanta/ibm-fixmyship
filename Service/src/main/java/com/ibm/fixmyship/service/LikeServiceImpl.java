@@ -34,4 +34,9 @@ public class LikeServiceImpl implements LikeService{
 		return likeRepo.findByUid(uid);
 	}
 
+	@Override
+	public List<Long> findCidByUid(Long uid) {
+		return likeRepo.findCidByUid(uid);
+	}
+
 }

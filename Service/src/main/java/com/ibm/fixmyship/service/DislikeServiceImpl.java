@@ -1,5 +1,7 @@
 package com.ibm.fixmyship.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,11 @@ public class DislikeServiceImpl implements DislikeService {
 	@Override
 	public Long deleteByCidAndUid(Long cid, Long uid) {
 		return dislikeRepo.deleteByCidAndUid(cid, uid);
+	}
+
+	@Override
+	public List<Long> findCidByUid(Long uid) {
+		return dislikeRepo.findCidByUid(uid);
 	}
 
 }

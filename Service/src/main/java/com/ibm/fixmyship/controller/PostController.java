@@ -199,10 +199,18 @@ public class PostController {
 	
 	@GetMapping("/comment/like")
 	public ResponseEntity<?> getLikeByUid(@CurrentUser UserPrincipal currentUser){
-		List<Like> likesList = likeService.findByUid(currentUser.getId());
+		List<Long> likesList = likeService.findCidByUid(currentUser.getId());
 		if(likesList.isEmpty())
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<>(likesList, HttpStatus.OK);
+	}
+	
+	@GetMapping("/comment/dislike")
+	public ResponseEntity<?> getDislikeByUid(@CurrentUser UserPrincipal currentUser){
+		List<Long> disLikesList = dislikeService.findCidByUid(currentUser.getId());
+		if(disLikesList.isEmpty())
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(disLikesList, HttpStatus.OK);
 	}
 
 }
