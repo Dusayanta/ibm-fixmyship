@@ -99,6 +99,8 @@ public class PostController {
 	@PostMapping("/comment")
 	public ResponseEntity<?> saveComment(@RequestBody Comment comment, @CurrentUser UserPrincipal currentUser) {
 		comment.setUid(currentUser.getId());
+		comment.setLikeCount(0L);
+		comment.setDislikeCount(0L);
 		Comment savedComment = commentService.save(comment);
 		if (savedComment == null) {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -132,32 +134,24 @@ public class PostController {
 
 			// If dislike is removed
 			if (delDislikeCount >= 1) {
-				Like savedLike = likeService.save(like);
-				if (savedLike == null) {
-					return new ResponseEntity<>("Something went wrong while saving Like", HttpStatus.OK);
-				}
-				return new ResponseEntity<>("Dislike Removed and Like Saved", HttpStatus.OK);
-			}
-
-			// If unable to remove dislike
-			else {
-				return new ResponseEntity<>("Unable to remove Dislike", HttpStatus.OK);
+				likeService.save(like);
 			}
 		}
 
 		// If like exists Remove Like
 		else if (existsLike) {
-			Long delLikeCount = likeService.deleteByCidAndUid(like.getCid(), like.getUid());
-			if (delLikeCount >= 1)
-				return new ResponseEntity<>("Like removed", HttpStatus.OK);
-			return new ResponseEntity<>("Something went wrong while removing like", HttpStatus.OK);
+			likeService.deleteByCidAndUid(like.getCid(), like.getUid());
 		}
 
 		// if like does not exist . Add the like
 		else {
-			Like savedLike = likeService.save(like);
-			return new ResponseEntity<>(savedLike, HttpStatus.OK);
+			likeService.save(like);
 		}
+		Comment updatedComment = commentService.findById(like.getCid());
+		List<Long> likeAndDislike = new ArrayList<>();
+		likeAndDislike.add(updatedComment.getLikeCount());
+		likeAndDislike.add(updatedComment.getDislikeCount());
+		return new ResponseEntity<>(likeAndDislike, HttpStatus.OK);
 	}
 
 	@PostMapping("/comment/dislike")
@@ -169,32 +163,24 @@ public class PostController {
 		
 		// If dislike exists Remove dislike
 		if(existsDisLike) {
-			Long delDislikeCount = dislikeService.deleteByCidAndUid(disLike.getCid(), disLike.getUid());
-			if(delDislikeCount >=1)
-				return new ResponseEntity<>("Dislike removed", HttpStatus.OK);
-			return new ResponseEntity<>("Something went wrong while removing Dislike", HttpStatus.OK);
+			dislikeService.deleteByCidAndUid(disLike.getCid(), disLike.getUid());
 		}
-		
 		else if(existsLike) {
 			
 			// Delete like
 			Long delLikeCount = likeService.deleteByCidAndUid(disLike.getCid(), disLike.getUid());
-			
 			if(delLikeCount >= 1) {
-				Dislike savedDisLike = dislikeService.save(disLike);
-				if(savedDisLike == null) {
-					return new ResponseEntity<>("Something went wrong while saving Dislike", HttpStatus.OK);
-				}
-				return new ResponseEntity<>("Like Removed and Dislike Saved", HttpStatus.OK);
-			}
-			else {
-				return new ResponseEntity<>("Unable to remove Like", HttpStatus.OK);
+				dislikeService.save(disLike);
 			}
 		}
 		else {
-			Dislike savedDislike = dislikeService.save(disLike);
-			return new ResponseEntity<>(savedDislike, HttpStatus.OK);
+			dislikeService.save(disLike);
 		}
+		Comment updatedComment = commentService.findById(disLike.getCid());
+		List<Long> likeAndDislike = new ArrayList<>();
+		likeAndDislike.add(updatedComment.getLikeCount());
+		likeAndDislike.add(updatedComment.getDislikeCount());
+		return new ResponseEntity<>(likeAndDislike, HttpStatus.OK);
 	}
 	
 	@GetMapping("/comment/like")

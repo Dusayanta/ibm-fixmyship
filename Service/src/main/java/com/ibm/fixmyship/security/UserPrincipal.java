@@ -31,10 +31,12 @@ public class UserPrincipal implements UserDetails {
     private String password;
     
     private String gender;
+    
+    private Long badgeValue;
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrincipal(Long id, String firstname, String lastname, String username, String email, String password, String gender, Collection<? extends GrantedAuthority> authorities) {
+    public UserPrincipal(Long id, String firstname, String lastname, String username, String email, String password, String gender, Long badgeValue, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -42,6 +44,7 @@ public class UserPrincipal implements UserDetails {
         this.email = email;
         this.password = password;
         this.gender = gender;
+        this.badgeValue = badgeValue;
         this.authorities = authorities;
     }
 
@@ -58,6 +61,7 @@ public class UserPrincipal implements UserDetails {
                 user.getEmail(),
                 user.getPassword(),
                 user.getGender(),
+                user.getBadgeValue(),
                 authorities
         );
     }
@@ -90,6 +94,10 @@ public class UserPrincipal implements UserDetails {
     
     public String getGender() {
         return gender;
+    }
+    
+    public Long getBadgeValue() {
+    	return badgeValue;
     }
 
     @Override

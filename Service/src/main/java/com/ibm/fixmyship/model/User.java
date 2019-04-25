@@ -48,6 +48,8 @@ public class User extends DateAudit {
     
     @Size(max = 15)
     private String phone;
+    
+    private Long badgeValue;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
@@ -138,6 +140,14 @@ public class User extends DateAudit {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public Long getBadgeValue() {
+		return badgeValue;
+	}
+
+	public void setBadgeValue(Long badgeValue) {
+		this.badgeValue = badgeValue;
 	}
     
     

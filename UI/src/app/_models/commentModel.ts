@@ -7,4 +7,6 @@ export class CommentModel{
   comment: string;
   pid: number;
   uid: number;
+  likeCount: number;
+  dislikeCount: number;
 }

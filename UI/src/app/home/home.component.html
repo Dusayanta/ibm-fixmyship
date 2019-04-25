@@ -1,20 +1,20 @@
 <div class="container-fluid">
     <div class="row py-1 ml-5">
       <div class="col-3 position-fixed">
-          <div class="card shadow rounded text-center bg-white">
+          <div class="card shadow rounded text-center bg-white border border-danger">
             <div class="card-body bg-white">
               <h5 class="card-title">My Profile</h5>
               <p class="card-text my-2">
                 <img src="../../assets/avatar.png" height="110px" width="110px" alt="Profile Picture" />
               </p>
             </div>
-            <p class="offset-1 col-10 mb-2 card-text">
-              <button class="btn btn-outline-dark btn-block"><i class="fas fa-cog"></i>&nbsp;Settings</button>
-            </p>
+            <div class="card-text bg-danger py-4">
+              <a [routerLink]="['myposts']" routerLinkActive="active"  class="text-white h5"><i class="fas fa-mail-bulk"></i>&nbsp;My Posts</a>
+            </div>
           </div>
           <div class="row mt-4">
             <div class="col-6 mx-auto">
-              <button type="button" class="btn btn-outline-info btn-block" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-edit"></i>&nbsp;Add Your Issue</button>
+              <button type="button" class="btn btn-outline-info btn-block" data-toggle="modal" data-target="#exampleModal"><i class="far fa-edit"></i>&nbsp;Add Your Issue</button>
             </div>
           </div>
       </div>
@@ -22,26 +22,37 @@
           <router-outlet></router-outlet>
       </div>
       <div class="offset-8 col-3 position-fixed">
-            <div class="card shadow rounded text-center bg-white">
+            <div class="card shadow rounded text-center bg-white border-danger">
                 <div class="card-body">
-                    <h5 class="card-title">Follow Requests</h5>
-                    <p class="card-text my-2">
-                        <img src="../../assets/avatar-girl.png" height="110px" width="110px" alt="Others profile picture">
-                    </p>
-                    <h5 class="my-2">Maisie Williams</h5>
-                    <div class="row ">
-                      <div class="offset-2 col-4">
-                          <button class="btn btn-outline-success btn-block"><i class="fa fa-check"></i></button>
+                    <h5 class="card-title">Your Credits</h5>
+                    <hr>
+                    <div class="card-text my-4">
+                        <h4>{{userDetails?.badgeValue}}</h4>
+                    </div>
+                    <div class="card-text mt-3">
+                      <i
+                      class="fas fa-shield-alt fa-3x {{badgeLevel}}"
+                      >
+                    </i>
+                    </div>
+                    <div class="card-text my-4">
+                      <h5><em>Badge Level : <span *ngIf="badgeLevel" class="bronze">{{badgeLevel | uppercase}}</span></em></h5>
+                    </div>
+                    <div class="card-text my-3">
+                      <div class="progress">
+                        <div class="progress-bar bg-bronze" role="progressbar" style="width: 10%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
-                        <div class="col-4">
-                            <button class="btn btn-outline-danger btn-block"><i class="fas fa-times"></i></button>
-                        </div>
-                      </div>
+                    </div>
+                    <div class="card-text ">
+                      <span class="h6">Next badge <em class="silver">SILVER</em> after 25 Credits</span>
+                    </div>
                 </div>
             </div>
       </div>
     </div>
   </div>
+
+  <!-- Modal for Add Post -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">

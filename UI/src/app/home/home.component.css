@@ -1,7 +1,23 @@
-body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
+body, h1, h2, h3, h4, h5, h6 {font-family: "Open Sans", sans-serif}
 /* button{
     padding: 5px; margin-right: 16px
 } */
 a{
   text-decoration: none;
+}
+.gold{
+  color: gold;
+}
+.silver{
+  color: silver;
+}
+.bronze{
+  color: #cd7f32;
+}
+.platinum{
+  color: #e5e4e2;
+}
+
+.bg-bronze{
+  background-color: #cd7f32;
 }

@@ -18,6 +18,8 @@ import { NotfoundComponent } from './notfound/notfound.component';
 import { PostsComponent } from './posts/posts.component';
 import { PostDetailsComponent } from './home/post-details/post-details.component';
 import { AllPostsComponent } from './home/all-posts/all-posts.component';
+import { MyPostsComponent } from './home/my-posts/my-posts.component';
+import { MyPostDetailsComponent } from './home/my-post-details/my-post-details.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { AllPostsComponent } from './home/all-posts/all-posts.component';
     NotfoundComponent,
     PostsComponent,
     PostDetailsComponent,
-    AllPostsComponent
+    AllPostsComponent,
+    MyPostsComponent,
+    MyPostDetailsComponent
   ],
   imports: [
     BrowserModule,

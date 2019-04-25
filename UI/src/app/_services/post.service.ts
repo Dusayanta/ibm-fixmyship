@@ -49,13 +49,13 @@ export class PostService{
 
     likePost(cid){
       return this.http
-      .post(`${this.config.apiUrl}/comment/like`, cid)
+      .post<number[]>(`${this.config.apiUrl}/comment/like`, cid)
       .pipe(map(response => response));
     }
 
     dislikePost(cid){
       return this.http
-      .post(`${this.config.apiUrl}/comment/dislike`, cid)
+      .post<number[]>(`${this.config.apiUrl}/comment/dislike`, cid)
       .pipe(map(response => response));
     }
 

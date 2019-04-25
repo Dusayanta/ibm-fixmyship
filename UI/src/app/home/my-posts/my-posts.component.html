@@ -1,6 +1,9 @@
 <div *ngIf="myPosts">
   <div *ngFor="let post of myPosts" class="card shadow rounded bg-white d-block ml-4 mt-3">
-      <div class="card-body">
+    <div class="card-header text-right">
+        <i class="fas fa-pen-square fa-2x text-primary"></i>
+    </div>
+      <div class="card-body shadow">
         <div class="row">
           <div class="col-12">
               <div class="card-title">
@@ -27,8 +30,6 @@
           </div>
           <div class="row">
             <div class="col-5"><span class="text-info"><a [routerLink]="['../post', post.id]" fragment="commentSection"><i class="far fa-comments"></i>&nbsp;{{post.commentCount}}&nbsp;Suggest</a></span></div>
-            <div class="col-4"><span class="text-warning"><i class="fas fa-rss"></i>&nbsp;Follow</span></div>
-            <div class="col-4"></div>
           </div>
       </div>
   </div>

@@ -7,14 +7,16 @@ public class UserSummary {
     private String lastname;
     private String email;
     private String gender;
+    private Long badgeValue;
 
-    public UserSummary(Long id, String username, String firstname, String lastname, String email, String gender) {
+    public UserSummary(Long id, String username, String firstname, String lastname, String email, String gender, Long badgeValue) {
         this.id = id;
         this.username = username;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.gender = gender;
+        this.badgeValue = badgeValue;
     }
 
     public Long getId() {
@@ -64,6 +66,14 @@ public class UserSummary {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public Long getBadgeValue() {
+		return badgeValue;
+	}
+
+	public void setBadgeValue(Long badgeValue) {
+		this.badgeValue = badgeValue;
 	}
     
 }

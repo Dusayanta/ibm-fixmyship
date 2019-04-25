@@ -23,6 +23,16 @@ public class CommentServiceImpl implements CommentService{
 	public List<Comment> findByPid(Long pid) {
 		return commentRepo.findByPid(pid);
 	}
+
+	@Override
+	public List<Long> findLikeAndDislikeCountByCid(Long cid) {
+		return commentRepo.findLikeAndDislikeCountByCid(cid);
+	}
+
+	@Override
+	public Comment findById(Long id) {
+		return commentRepo.findById(id).get();
+	}
 	
 	
 }

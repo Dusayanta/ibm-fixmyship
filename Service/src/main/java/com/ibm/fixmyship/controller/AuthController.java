@@ -84,6 +84,8 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         
         user.setPhone(signUpRequest.getPhone());
+        
+        user.setBadgeValue(0L);
 
         Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
                 .orElseThrow(() -> new FixMyShipException("User Role not set."));
