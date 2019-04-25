@@ -25,6 +25,10 @@ public class Comment extends UserDateAudit {
 	private Long pid;
 	
 	private Long uid;
+	
+	private Long likeCount;
+	
+	private Long dislikeCount;
 
 	public Long getId() {
 		return id;
@@ -56,6 +60,22 @@ public class Comment extends UserDateAudit {
 
 	public void setUid(Long uid) {
 		this.uid = uid;
+	}
+
+	public Long getLikeCount() {
+		return likeCount;
+	}
+
+	public void setLikeCount(Long likeCount) {
+		this.likeCount = likeCount;
+	}
+
+	public Long getDislikeCount() {
+		return dislikeCount;
+	}
+
+	public void setDislikeCount(Long dislikeCount) {
+		this.dislikeCount = dislikeCount;
 	}
 	
 }

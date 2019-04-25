@@ -19,13 +19,15 @@ import { PostService } from '../_services/post.service';
 export class HomeComponent implements OnInit, OnDestroy {
   currentUser: User;
   currentUserSubscription: Subscription;
-  users: User[] = [];
+  userDetails: User;
   user = { firstName: '', lastName: '', email: '' };
   title = new FormControl('');
   description = new FormControl('');
   //postsByOthers: PostModel[];
 
   myPosts: PostModel[];
+
+  badgeLevel: string;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -40,7 +42,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // this.getPostByOthers();
+    this.getCurrentUserDetails();
   }
 
   ngOnDestroy() {
@@ -79,14 +81,27 @@ export class HomeComponent implements OnInit, OnDestroy {
           });
     }
   }
-  // getPostByOthers() {
-  //   this.postService.getPostByOthers(this.user.email)
-  //     .subscribe(
-  //       data => {
-  //         this.postsByOthers = data;
-  //       },
-  //       error => {
-  //         this.alertService.error(error);
-  //       });
-  // }
+  getCurrentUserDetails(){
+    this.userService.getCurrentUserDetails()
+    .subscribe(
+      data =>{
+        this.userDetails = data;
+        if(data.badgeValue <= 25){
+          this.badgeLevel = 'bronze';
+        }
+        else if(data.badgeValue > 25 && data.badgeValue <=100){
+          this.badgeLevel = 'silver';
+        }
+        else if(data.badgeValue > 100 && data.badgeValue <=200){
+          this.badgeLevel = 'gold';
+        }
+        else if(data.badgeValue > 200){
+          this.badgeLevel = 'platinum';
+        }
+      },
+      error =>{
+        console.log(error);
+      }
+    );
+  }
 }

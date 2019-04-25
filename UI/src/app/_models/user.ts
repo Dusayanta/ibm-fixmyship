@@ -5,5 +5,6 @@ export class User{
     lastname: string;
     email: string;
     gender: string;
+    badgeValue: number;
     accessToken?: string;
 }

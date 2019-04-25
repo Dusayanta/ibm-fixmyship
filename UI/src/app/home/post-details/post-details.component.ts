@@ -34,9 +34,16 @@ export class PostDetailsComponent implements OnInit {
   solidThumbsDown = 'fas fa-thumbs-down';
   regularThumbsDown = 'far fa-thumbs-down';
 
+  showFetched = false;
+
+  likeDislikeCount: number[];
+
+
+
   constructor(private route: ActivatedRoute,
     private postService: PostService,
-    private alertService: AlertService) {
+    private alertService: AlertService
+    ) {
     this.getLikesList();
     this.getDisLikeList();
   }
@@ -49,11 +56,6 @@ export class PostDetailsComponent implements OnInit {
     }
     this.getPostById();
     this.getCommentsByPostId();
-
-
-    //  const arr = [1,5,10,6];
-    //  let status = arr.indexOf(6) !== -1 ? true : false;
-    //  console.log(status);
 
   }
 
@@ -117,7 +119,11 @@ export class PostDetailsComponent implements OnInit {
 
     this.postService.likePost({ cid: id })
       .subscribe(
-        data => console.log(data),
+        data => {
+          this.likeDislikeCount = data;
+          this.showFetched = true;
+        //  console.log(data);
+        },
         error => console.log(error)
       );
 
@@ -140,12 +146,18 @@ export class PostDetailsComponent implements OnInit {
 
     this.postService.dislikePost({ cid: id })
       .subscribe(
-        data => console.log(data),
+        data => {
+          this.likeDislikeCount = data;
+          this.showFetched = true;
+         // console.log(data);
+        },
         error => console.log(error)
       );
 
+
     const dislike = document.getElementById(`dislike${id}`);
     const like = document.getElementById(`like${id}`);
+
 
     if (dislike.className === this.regularThumbsDown) {
       dislike.className = this.solidThumbsDown;
