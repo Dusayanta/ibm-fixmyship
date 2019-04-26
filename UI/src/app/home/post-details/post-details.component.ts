@@ -117,12 +117,17 @@ export class PostDetailsComponent implements OnInit {
 
   upVote(id: number) {
 
+    const spanLike = document.getElementById(`spanLike${id}`);
+    const spanDislike = document.getElementById(`spanDislike${id}`);
+
     this.postService.likePost({ cid: id })
       .subscribe(
         data => {
           this.likeDislikeCount = data;
           this.showFetched = true;
-        //  console.log(data);
+          spanLike.innerText = data[0].toString();
+          spanDislike.innerText = data[1].toString();
+         console.log(data);
         },
         error => console.log(error)
       );
@@ -144,12 +149,17 @@ export class PostDetailsComponent implements OnInit {
 
   downVote(id: number) {
 
+    const spanLike = document.getElementById(`spanLike${id}`);
+    const spanDislike = document.getElementById(`spanDislike${id}`);
+
     this.postService.dislikePost({ cid: id })
       .subscribe(
         data => {
           this.likeDislikeCount = data;
           this.showFetched = true;
-         // console.log(data);
+          spanLike.innerText = data[0].toString();
+          spanDislike.innerText = data[1].toString();
+         console.log(data);
         },
         error => console.log(error)
       );
