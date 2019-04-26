@@ -86,8 +86,7 @@
                 [ngClass]="existsLike(comment.id) === true ? 'fas fa-thumbs-up' : 'far fa-thumbs-up'"
                 >
                 &nbsp;
-                <span *ngIf="!showFetched">{{comment.likeCount}}</span>
-                <span *ngIf="showFetched">{{likeDislikeCount[0]}}</span>
+                <span id="spanLike{{comment.id}}">{{comment.likeCount}}</span>
                 &nbsp;
                 Upvote
               </i>
@@ -101,8 +100,7 @@
                 [ngClass]="existsDislike(comment.id) === true ? 'fas fa-thumbs-down' : 'far fa-thumbs-down'"
                 >
                 &nbsp;
-                <span *ngIf="!showFetched">{{comment.dislikeCount}}</span>
-                <span *ngIf="showFetched">{{likeDislikeCount[1]}}</span>
+                <span id="spanDislike{{comment.id}}">{{comment.dislikeCount}}</span>
                 &nbsp;Downvote
               </i>
               </a>
