@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewChecked } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PostModel } from 'src/app/_models/postModel';
 import { PostService } from 'src/app/_services/post.service';
@@ -43,7 +43,7 @@ export class PostDetailsComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private postService: PostService,
     private alertService: AlertService
-    ) {
+  ) {
     this.getLikesList();
     this.getDisLikeList();
   }
@@ -127,7 +127,7 @@ export class PostDetailsComponent implements OnInit {
           this.showFetched = true;
           spanLike.innerText = data[0].toString();
           spanDislike.innerText = data[1].toString();
-         console.log(data);
+          console.log(data);
         },
         error => console.log(error)
       );
@@ -159,7 +159,7 @@ export class PostDetailsComponent implements OnInit {
           this.showFetched = true;
           spanLike.innerText = data[0].toString();
           spanDislike.innerText = data[1].toString();
-         console.log(data);
+          console.log(data);
         },
         error => console.log(error)
       );

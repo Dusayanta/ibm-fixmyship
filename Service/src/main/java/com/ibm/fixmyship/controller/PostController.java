@@ -18,6 +18,7 @@ import com.ibm.fixmyship.model.Comment;
 import com.ibm.fixmyship.model.Dislike;
 import com.ibm.fixmyship.model.Like;
 import com.ibm.fixmyship.model.Post;
+import com.ibm.fixmyship.model.Solution;
 import com.ibm.fixmyship.repository.CommentRepository;
 import com.ibm.fixmyship.repository.LikeRepository;
 import com.ibm.fixmyship.security.CurrentUser;
@@ -26,6 +27,7 @@ import com.ibm.fixmyship.service.CommentService;
 import com.ibm.fixmyship.service.DislikeService;
 import com.ibm.fixmyship.service.LikeService;
 import com.ibm.fixmyship.service.PostService;
+import com.ibm.fixmyship.service.SolutionService;
 import com.ibm.fixmyship.service.UserService;
 
 @RestController
@@ -46,6 +48,9 @@ public class PostController {
 
 	@Autowired
 	private DislikeService dislikeService;
+	
+	@Autowired
+	private SolutionService solutionService;
 
 	@GetMapping
 	public ResponseEntity<List<Post>> getAllPosts() {
@@ -67,6 +72,7 @@ public class PostController {
 		//System.out.println(currentUser.getId());
 		post.setCommentCount(0L);
 		post.setUid(currentUser.getId());
+		post.setUsername(currentUser.getFirstname());
 		Post gotPost = postService.save(post);
 		if (gotPost == null) {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -101,6 +107,7 @@ public class PostController {
 		comment.setUid(currentUser.getId());
 		comment.setLikeCount(0L);
 		comment.setDislikeCount(0L);
+		comment.setUsername(currentUser.getFirstname());
 		Comment savedComment = commentService.save(comment);
 		if (savedComment == null) {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -197,6 +204,24 @@ public class PostController {
 		if(disLikesList.isEmpty())
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<>(disLikesList, HttpStatus.OK);
+	}
+	
+	@PostMapping("/solution")
+	public ResponseEntity<?> saveSolution(@RequestBody Solution solution){
+		Solution savedSolution = solutionService.save(solution);
+		if(savedSolution == null) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(savedSolution, HttpStatus.OK);
+	}
+	
+	@GetMapping("/{pid}/solution")
+	public ResponseEntity<?> getSolutionByPid(@PathVariable Long pid){
+		List<Long> solutionList = solutionService.findCidByPid(pid);
+		if(solutionList.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(solutionList, HttpStatus.OK);
 	}
 
 }

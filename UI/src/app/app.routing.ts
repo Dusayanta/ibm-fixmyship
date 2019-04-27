@@ -9,22 +9,26 @@ import { NotfoundComponent } from "./notfound/notfound.component";
 import { AllPostsComponent } from './home/all-posts/all-posts.component';
 import { PostDetailsComponent } from './home/post-details/post-details.component';
 import { MyPostsComponent } from './home/my-posts/my-posts.component';
+import { MyPostDetailsComponent } from "./home/my-post-details/my-post-details.component";
 
 const appRoutes: Routes = [
-    { path: '', redirectTo: '/home/posts', pathMatch: 'full' },
-    { path: 'home', component: HomeComponent, canActivate: [AuthGuard],
-      children: [
-        { path: '', redirectTo: 'posts', pathMatch: 'full' },
-        { path: 'posts', component: AllPostsComponent },
-        { path: 'myposts', component: MyPostsComponent},
-        {path: 'post/:id', component: PostDetailsComponent}
-      ]},
-    // { path: 'selfposts', component: PostsComponent, canActivate: [AuthGuard]},
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
+  { path: '', redirectTo: '/home/posts', pathMatch: 'full' },
+  {
+    path: 'home', component: HomeComponent, canActivate: [AuthGuard],
+    children: [
+      { path: '', redirectTo: 'posts', pathMatch: 'full' },
+      { path: 'posts', component: AllPostsComponent },
+      { path: 'post/:id', component: PostDetailsComponent },
+      { path: 'myposts', component: MyPostsComponent },
+      { path: 'mypost/:id', component: MyPostDetailsComponent }
+    ]
+  },
+  // { path: 'selfposts', component: PostsComponent, canActivate: [AuthGuard]},
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
 
-    // otherwise redirect to home
-    { path: '**', component: NotfoundComponent }
+  // otherwise redirect to home
+  { path: '**', component: NotfoundComponent }
 ];
 
-export const routing = RouterModule.forRoot(appRoutes);
+export const routing = RouterModule.forRoot(appRoutes, { scrollPositionRestoration: 'enabled' });

@@ -1,4 +1,8 @@
-<div *ngIf="post">
+<div id="postSection" class="ml-4 mb-2">
+  <h5>Post</h5>
+  <hr>
+</div>
+<div *ngIf="post" >
   <div class="card shadow rounded bg-white d-block ml-4">
       <div class="card-body">
         <div class="row">
@@ -18,7 +22,7 @@
           <div class="row">
               <div class="col-12">
                   <div class="card-text mt-2 mb-2">
-                      <div class="float-right"><p>User ID -{{post.createdBy}}</p></div>
+                      <div class="float-right"><p>- {{post.username}}</p></div>
                     </div>
               </div>
           </div>
@@ -72,7 +76,7 @@
           <div class="col-12">
             <div class="card-text">
               <div class="float-right">
-                <p>User ID - {{comment.createdBy}}</p>
+                <p>- {{comment.username}}</p>
               </div>
             </div>
           </div>

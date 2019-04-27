@@ -16,7 +16,7 @@ public class FixmyshipApplication {
 	@PostConstruct
 	void init() {
 		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Kolkata"));
-		String name = TimeZone.getDefault().getDisplayName();         
+		String name = TimeZone.getDefault().getDisplayName();        
 		System.out.println("Display name for default time zone: "+ name);  
 	}
 

@@ -11,7 +11,7 @@
           <div class="row">
             <div class="col-12">
                 <div class="card-title">
-                    <h5><a [routerLink]="['../post', post.id]" class="text-dark">{{post.title}}</a></h5>
+                    <h5><a [routerLink]="['../post', post.id]" fragment="postSection" class="text-dark">{{post.title}}</a></h5>
                 </div>
             </div>
           </div>
@@ -28,13 +28,18 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-text mt-2 mb-2">
-                        <div class="float-right"><p>User ID -{{post.createdBy}}</p></div>
+                        <div class="float-right"><p>-{{post.username}}</p></div>
                       </div>
                 </div>
             </div>
             <div class="row">
-              <div class="col-5"><span class="text-info"><a [routerLink]="['../post', post.id]" fragment="commentSection"><i class="far fa-comments"></i>&nbsp;{{post.commentCount}}&nbsp;Suggest</a></span></div>
-              <div class="col-4"><span class="text-warning"><i class="fas fa-rss"></i>&nbsp;Follow</span></div>
+              <div class="col-5">
+                <span class="text-info">
+                  <a [routerLink]="['../post', post.id]" fragment="commentSection"><i class="far fa-comments"></i>&nbsp;{{post.commentCount}}&nbsp;Suggest</a></span>
+                </div>
+              <div class="col-4">
+                <span class="text-warning"><i class="fas fa-rss"></i>&nbsp;Follow</span>
+              </div>
               <div class="col-4"></div>
             </div>
         </div>

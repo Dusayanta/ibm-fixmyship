@@ -7,4 +7,5 @@ export class PostModel{
   created_by: string;
   updated_by: string;
   commentCount: number;
+  username: string;
 }
