@@ -29,6 +29,8 @@ public class Comment extends UserDateAudit {
 	private Long likeCount;
 	
 	private Long dislikeCount;
+	
+	private String username;
 
 	public Long getId() {
 		return id;
@@ -76,6 +78,14 @@ public class Comment extends UserDateAudit {
 
 	public void setDislikeCount(Long dislikeCount) {
 		this.dislikeCount = dislikeCount;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	
 }

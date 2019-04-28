@@ -9,4 +9,5 @@ export class CommentModel{
   uid: number;
   likeCount: number;
   dislikeCount: number;
+  username: string;
 }

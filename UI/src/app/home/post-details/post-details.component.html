@@ -1,4 +1,8 @@
-<div *ngIf="post">
+<div id="postSection" class="ml-4 mb-2">
+  <h5>Post</h5>
+  <hr>
+</div>
+<div *ngIf="post" >
   <div class="card shadow rounded bg-white d-block ml-4">
       <div class="card-body">
         <div class="row">
@@ -18,13 +22,28 @@
           <div class="row">
               <div class="col-12">
                   <div class="card-text mt-2 mb-2">
-                      <div class="float-right"><p>User ID -{{post.createdBy}}</p></div>
+                      <div class="float-right"><p>- {{post.username}}</p></div>
                     </div>
               </div>
           </div>
-          <div class="row">
-            <div class="col-6"><a (click)="toggleCommentBox()" style="cursor: pointer;"><span class="text-info"><i class="far fa-comments"></i>&nbsp;Suggest</span></a></div>
-            <div class="col-6"><span class="text-warning"><i class="fas fa-rss"></i>&nbsp;Follow</span></div>
+          <div class="row" *ngIf="post.resolved === 'N'">
+            <div class="col-6">
+              <a (click)="toggleCommentBox()" style="cursor: pointer;">
+                <span class="text-info">
+                  <i class="far fa-comments"></i>&nbsp;Suggest
+                </span>
+              </a>
+            </div>
+            <div class="col-6">
+                Status:
+                <span *ngIf="post.resolved === 'Y'" class="text-success"><em>Resolved</em></span>
+                <span *ngIf="post.resolved === 'N'" class="text-danger"><em>Un-resolved</em></span>
+            </div>
+          </div>
+          <div class="row" *ngIf="post.resolved === 'Y'">
+            <div class="col">
+                <span>Status: <em class="text-success">Resolved</em></span>
+            </div>
           </div>
           <div *ngIf="showCommentBox" class="row mt-3" id="commentSection">
             <div class="col-12">
@@ -64,7 +83,6 @@
           <div class="col-12">
             <div class="card-text">
               <p>{{comment.comment}}</p>
-              <p><span>Comment ID: {{comment.id}}</span></p>
             </div>
           </div>
         </div>
@@ -72,14 +90,14 @@
           <div class="col-12">
             <div class="card-text">
               <div class="float-right">
-                <p>User ID - {{comment.createdBy}}</p>
+                <p>- {{comment.username}}</p>
               </div>
             </div>
           </div>
         </div>
         <hr>
         <div class="row">
-          <div class="col-6">
+          <div class="col-4">
             <span class="text-primary">
               <a (click)="upVote(comment.id)">
                 <i id="like{{comment.id}}"
@@ -93,7 +111,7 @@
               </a>
             </span>
           </div>
-          <div class="col-6">
+          <div class="col-4">
             <span class="text-danger">
               <a (click)="downVote(comment.id)">
                 <i id="dislike{{comment.id}}"
@@ -105,6 +123,15 @@
               </i>
               </a>
             </span>
+          </div>
+          <div class="col-4">
+              <a *ngIf="existsSolution(comment.id)">
+                  <i
+                  class="fas fa-check fa-2x text-success"
+                  title="Accepted as a solution"
+                  >
+                </i>
+              </a>
           </div>
         </div>
       </div>

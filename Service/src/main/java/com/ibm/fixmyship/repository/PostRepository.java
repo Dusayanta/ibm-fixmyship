@@ -9,6 +9,10 @@ import com.ibm.fixmyship.model.Post;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
+	
 	List<Post> findByUidNotIn(List<Long> userIds);
+	
 	List<Post> findByUidIn(List<Long> userIds);
+	
+	Post findByIdAndUid(Long id, Long uid);
 }

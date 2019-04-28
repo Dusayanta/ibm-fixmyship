@@ -8,12 +8,13 @@
                 <img src="../../assets/avatar.png" height="110px" width="110px" alt="Profile Picture" />
               </p>
             </div>
-            <div class="card-text bg-danger py-4">
-              <a [routerLink]="['myposts']" routerLinkActive="active"  class="text-white h5"><i class="fas fa-mail-bulk"></i>&nbsp;My Posts</a>
+            <div class="card-text mt-2">
+              <a [routerLink]="['myposts']" routerLinkActive="active"  class="bg-danger py-3 d-block text-white"><i class="fas fa-mail-bulk"></i>&nbsp;My Posts</a>
+              <a [routerLink]="['posts']" routerLinkActive="active"  class="bg-danger py-3 d-block text-white"><i class="fas fa-mail-bulk"></i>&nbsp;All Posts</a>
             </div>
           </div>
           <div class="row mt-4">
-            <div class="col-6 mx-auto">
+            <div class="col-8 mx-auto">
               <button type="button" class="btn btn-outline-info btn-block" data-toggle="modal" data-target="#exampleModal"><i class="far fa-edit"></i>&nbsp;Add Your Issue</button>
             </div>
           </div>
@@ -36,15 +37,33 @@
                     </i>
                     </div>
                     <div class="card-text my-4">
-                      <h5><em>Badge Level : <span *ngIf="badgeLevel" class="bronze">{{badgeLevel | uppercase}}</span></em></h5>
+                      <h5><em>Badge Level : <span *ngIf="badgeLevel" class="{{badgeLevel}}">{{badgeLevel | uppercase}}</span></em></h5>
                     </div>
                     <div class="card-text my-3">
                       <div class="progress">
-                        <div class="progress-bar bg-bronze" role="progressbar" style="width: 10%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                          <div
+                          class="progress-bar bg-{{badgeLevel}}"
+                          role="progressbar"
+                          [style.width.%] = "progressWidth"
+                          aria-valuenow="25"
+                          aria-valuemin="0"
+                          aria-valuemax="100">
+                        </div>
                       </div>
                     </div>
                     <div class="card-text ">
-                      <span class="h6">Next badge <em class="silver">SILVER</em> after 25 Credits</span>
+                      <span class="h6">Next badge <em class="{{nextBadgeLevel}}">{{nextBadgeLevel | uppercase}}</em> after {{nextBadgeValue}} Credits</span>
+                    </div>
+                    <hr>
+                    <div class="card-text">
+                        <ul class="text-muted" id="creditsInfo">
+                          <li>
+                              +2 credits for each upvote on your comments
+                          </li>
+                          <li>
+                              -2 credits for each downvote on your comments
+                          </li>
+                        </ul>
                     </div>
                 </div>
             </div>

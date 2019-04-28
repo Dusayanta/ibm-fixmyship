@@ -1,4 +1,4 @@
-body, h1, h2, h3, h4, h5, h6 {font-family: "Open Sans", sans-serif}
+h1, h2, h3, h4, h5, h6 {font-family: "Open Sans", sans-serif}
 /* button{
     padding: 5px; margin-right: 16px
 } */
@@ -20,4 +20,16 @@ a{
 
 .bg-bronze{
   background-color: #cd7f32;
+}
+.bg-silver{
+  background-color: silver;
+}
+.bg-gold{
+  background-color: gold;
+}
+.bg-platinum{
+  background-color: #e5e4e2;
+}
+#creditsInfo{
+  font-size: 0.8rem;
 }

@@ -71,9 +71,35 @@ export class PostService{
       .get<number[]>(`${this.config.apiUrl}/comment/dislike`)
       .pipe(map(response => response));
     }
-    // getMyPosts(): Observable<PostModel[]>{
-    //   return this.http
-    //   .get<PostModel[]>(`${this.config.apiUrl}`)
-    //   .pipe(map(response => response));
-    // }
+
+    writeSolution(solutionObj){
+      return this.http
+      .post(`${this.config.apiUrl}/solution`, solutionObj)
+      .pipe(map(response => response));
+    }
+
+    getSolutionList(pid: number){
+      return this.http
+      .get<number[]>(`${this.config.apiUrl}/${pid}/solution`)
+      .pipe(map(response => response));
+    }
+
+    getMyPostById(pid: number){
+      return this.http
+      .get<PostModel>(`${this.config.apiUrl}/mypost/${pid}`)
+      .pipe(map(response => response));
+    }
+
+    closeIssue(pid: number){
+      return this.http
+      .patch<PostModel>(`${this.config.apiUrl}/close`, {pid})
+      .pipe(map(response => response));
+
+    }
+
+    updatePost(postObj){
+      return this.http
+      .put<PostModel>(`${this.config.apiUrl}`, postObj)
+      .pipe(map(response => response));
+    }
 }

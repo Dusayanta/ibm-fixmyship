@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewChecked } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PostModel } from 'src/app/_models/postModel';
 import { PostService } from 'src/app/_services/post.service';
@@ -38,12 +38,14 @@ export class PostDetailsComponent implements OnInit {
 
   likeDislikeCount: number[];
 
+  solutionList: number[];
+
 
 
   constructor(private route: ActivatedRoute,
     private postService: PostService,
     private alertService: AlertService
-    ) {
+  ) {
     this.getLikesList();
     this.getDisLikeList();
   }
@@ -54,6 +56,7 @@ export class PostDetailsComponent implements OnInit {
     if (this.fragment === 'commentSection') {
       this.showCommentBox = true;
     }
+    this.getSolutionList();
     this.getPostById();
     this.getCommentsByPostId();
 
@@ -127,7 +130,7 @@ export class PostDetailsComponent implements OnInit {
           this.showFetched = true;
           spanLike.innerText = data[0].toString();
           spanDislike.innerText = data[1].toString();
-         console.log(data);
+          console.log(data);
         },
         error => console.log(error)
       );
@@ -159,7 +162,7 @@ export class PostDetailsComponent implements OnInit {
           this.showFetched = true;
           spanLike.innerText = data[0].toString();
           spanDislike.innerText = data[1].toString();
-         console.log(data);
+          console.log(data);
         },
         error => console.log(error)
       );
@@ -227,4 +230,29 @@ export class PostDetailsComponent implements OnInit {
       return status;
     }
   }
+
+  getSolutionList(){
+    this.postService.getSolutionList(this.id)
+    .subscribe(
+      data =>{
+        console.log(data);
+        this.solutionList = data;
+      },
+      error =>{
+        console.log(error);
+      }
+    );
+  }
+
+  existsSolution(cid: number){
+    if (this.solutionList === undefined || this.solutionList === null) {
+      return false;
+    } else {
+      let status = this.solutionList.indexOf(cid) !== -1 ? true : false;
+      console.log(cid);
+      console.log(status);
+      return status;
+    }
+  }
+
 }

@@ -1,3 +1,195 @@
-<p>
-  my-post-details works!
-</p>
+<div id="postSection" class="ml-4 mb-2">
+  <h5>Post</h5>
+  <hr>
+  <div *ngIf="post.resolved === 'N'">
+      <div *ngIf="solutionList !== null">
+          <div class="text-right">
+              <button class="btn btn-outline-primary" data-toggle="modal" data-target="#closeIssueModal">Close this issue</button>
+          </div>
+      </div>
+  </div>
+</div>
+<div *ngIf="post" >
+  <div class="card shadow rounded bg-white d-block ml-4">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12">
+              <div class="card-title">
+                  <h5>{{post.title}}</h5>
+              </div>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card-text">
+                    <p>{{post.description}}</p>
+                  </div>
+            </div>
+        </div>
+          <div class="row">
+              <div class="col-12">
+                  <div class="card-text mt-2 mb-2">
+                      <div class="float-right"><p>- {{post.username}}</p></div>
+                    </div>
+              </div>
+          </div>
+          <div *ngIf="post.resolved === 'N'" class="row">
+            <div class="col-12">
+              <div class="card-text text-center">
+                  <a (click)="toggleCommentBox()" style="cursor: pointer;"><span class="text-info"><i class="far fa-comments"></i>&nbsp;Suggest</span></a></div>
+                  <!-- <div class="col-6"><span class="text-warning"><i class="fas fa-rss"></i>&nbsp;Follow</span></div> -->
+              </div>
+          </div>
+          <div *ngIf="showCommentBox" class="row mt-3" id="commentSection">
+            <div class="col-12">
+              <div class="card shadow rounded d-block">
+                <div class="card-header">
+                  <h6>What are your thoughts?</h6>
+                </div>
+                <form>
+                    <div class="card-body bg-white">
+                      <div class="text-muted mb-1">
+                        <span>Write Minimum 30 characters</span>
+                      </div>
+                        <div class="card-text">
+                          <textarea class="form-control" name="comment" id="comment" cols="5" rows="10" placeholder="Write Your Answer" pattern=".{30,}" required title="Minimum 30 characters" [(ngModel)]="comment"></textarea>
+                        </div>
+                        <div *ngIf="errorMsg" class="card-text">
+                          <span class="text-danger">{{errorMsg}}</span>
+                        </div>
+                      </div>
+                      <div class="card-footer">
+                        <button type="button" class="btn btn-outline-primary btn-block" (click)="submitComment()">Submit</button>
+                      </div>
+                </form>
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+  <div class="ml-4 mt-5">
+    <h5>{{numberOfComments}} Suggestions/Advises</h5>
+    <hr>
+  </div>
+  <div *ngIf="commentsByPostId">
+    <div *ngFor="let comment of commentsByPostId" class="card shadow rounded d-block bg-white ml-4 my-1">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="card-text">
+              <p>{{comment.comment}}</p>
+              <p><span>Comment ID: {{comment.id}}</span></p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="card-text">
+              <div class="float-right">
+                <p>- {{comment.username}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-4">
+            <span class="text-primary">
+              <a (click)="upVote(comment.id)">
+                <i id="like{{comment.id}}"
+                [ngClass]="existsLike(comment.id) === true ? 'fas fa-thumbs-up' : 'far fa-thumbs-up'"
+                >
+                &nbsp;
+                <span id="spanLike{{comment.id}}">{{comment.likeCount}}</span>
+                &nbsp;
+                Upvote
+              </i>
+              </a>
+            </span>
+          </div>
+          <div class="col-4">
+            <span class="text-danger">
+              <a (click)="downVote(comment.id)">
+                <i id="dislike{{comment.id}}"
+                [ngClass]="existsDislike(comment.id) === true ? 'fas fa-thumbs-down' : 'far fa-thumbs-down'"
+                >
+                &nbsp;
+                <span id="spanDislike{{comment.id}}">{{comment.dislikeCount}}</span>
+                &nbsp;Downvote
+              </i>
+              </a>
+            </span>
+          </div>
+          <div class="col-4">
+            <div *ngIf="post.resolved === 'Y'">
+                <a *ngIf="existsSolution(comment.id)">
+                    <i
+                    class="fas fa-check fa-2x text-success"
+                    title="Accepted as a solution"
+                    >
+                  </i>
+                </a>
+            </div>
+            <div *ngIf="post.resolved === 'N'">
+                <a (click)="submitSolution(comment.id)" *ngIf="!existsSolution(comment.id)">
+                    <i
+                    class="fas fa-check fa-2x text-secondary"
+                    title="Accept this comment as a solution"
+                    >
+                  </i>
+                </a>
+                <a *ngIf="existsSolution(comment.id)">
+                    <i
+                    class="fas fa-check fa-2x text-success"
+                    title="Accepted as a solution"
+                    >
+                  </i>
+                </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!commentsByPostId">
+    <div class="ml-4 my-1">
+      <div class="row">
+        <div class="col-6">
+          <h4>No Suggestions/Advises available</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!post">
+  <div class="card text-center bg-white shadow rounded d-block ml-4">
+    <div class="card-body">
+      <div class="card-title">
+        <h4>No Post available..!!</h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="closeIssueModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Please Note</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Once you close the issue, no more suggestions will be accepted.</p>
+          <p>But, the post will still be visible</p>
+          <p>Are you sure to close the issue ? </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="closeIssue()">Close Issue</button>
+        </div>
+      </div>
+    </div>
+  </div>

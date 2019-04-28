@@ -11,6 +11,9 @@ import { PostService } from 'src/app/_services/post.service';
 export class MyPostsComponent implements OnInit {
 
   myPosts: PostModel[];
+  singlePost: PostModel;
+  updateTitle;
+  updateDesc;
 
   constructor(
     private alertService: AlertService,
@@ -29,6 +32,38 @@ export class MyPostsComponent implements OnInit {
       },
       error =>{
         this.alertService.error(error);
+      }
+    );
+  }
+
+  loadEditData(pid: number){
+    this.postService.getMyPostById(pid)
+    .subscribe(
+      data =>{
+        this.singlePost = data;
+        this.updateTitle = data.title;
+        this.updateDesc = data.description;
+      },
+      error =>{
+        console.log(error);
+      }
+    );
+  }
+
+  updatePost(){
+    const updateObj = {
+      id: this.singlePost.id,
+      title: this.updateTitle,
+      description: this.updateDesc
+    };
+    this.postService.updatePost(updateObj)
+    .subscribe(
+      data => {
+        this.alertService.success('Post Updated Successfully');
+        this.getMyPosts();
+      },
+      error =>{
+        console.log(error);
       }
     );
   }
