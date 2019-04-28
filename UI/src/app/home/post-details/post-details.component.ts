@@ -38,6 +38,8 @@ export class PostDetailsComponent implements OnInit {
 
   likeDislikeCount: number[];
 
+  solutionList: number[];
+
 
 
   constructor(private route: ActivatedRoute,
@@ -54,6 +56,7 @@ export class PostDetailsComponent implements OnInit {
     if (this.fragment === 'commentSection') {
       this.showCommentBox = true;
     }
+    this.getSolutionList();
     this.getPostById();
     this.getCommentsByPostId();
 
@@ -227,4 +230,29 @@ export class PostDetailsComponent implements OnInit {
       return status;
     }
   }
+
+  getSolutionList(){
+    this.postService.getSolutionList(this.id)
+    .subscribe(
+      data =>{
+        console.log(data);
+        this.solutionList = data;
+      },
+      error =>{
+        console.log(error);
+      }
+    );
+  }
+
+  existsSolution(cid: number){
+    if (this.solutionList === undefined || this.solutionList === null) {
+      return false;
+    } else {
+      let status = this.solutionList.indexOf(cid) !== -1 ? true : false;
+      console.log(cid);
+      console.log(status);
+      return status;
+    }
+  }
+
 }

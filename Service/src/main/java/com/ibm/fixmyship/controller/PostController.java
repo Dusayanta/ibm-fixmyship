@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,7 @@ import com.ibm.fixmyship.model.Dislike;
 import com.ibm.fixmyship.model.Like;
 import com.ibm.fixmyship.model.Post;
 import com.ibm.fixmyship.model.Solution;
+import com.ibm.fixmyship.payload.CloseRequest;
 import com.ibm.fixmyship.repository.CommentRepository;
 import com.ibm.fixmyship.repository.LikeRepository;
 import com.ibm.fixmyship.security.CurrentUser;
@@ -100,6 +102,15 @@ public class PostController {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<>(postByOthers, HttpStatus.OK);
+	}
+	
+	@GetMapping("/mypost/{pid}")
+	public ResponseEntity<?> getMyPostById(@PathVariable Long pid, @CurrentUser UserPrincipal currentUser){
+		Post myPostById = postService.findByIdAndUid(pid, currentUser.getId());
+		if(myPostById == null) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(myPostById, HttpStatus.OK);
 	}
 
 	@PostMapping("/comment")
@@ -222,6 +233,17 @@ public class PostController {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<>(solutionList, HttpStatus.OK);
+	}
+	
+	@PatchMapping("/close")
+	public ResponseEntity<?> closePostById(@RequestBody CloseRequest cr, @CurrentUser UserPrincipal currentUser){
+		Post postToUpdate = postService.findByIdAndUid(cr.getPid(), currentUser.getId());
+		if(postToUpdate == null) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		postToUpdate.setResolved("Y");
+		Post updatedPost = postService.save(postToUpdate);
+		return new ResponseEntity<>(updatedPost, HttpStatus.OK);
 	}
 
 }

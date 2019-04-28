@@ -49,7 +49,7 @@ export class MyPostDetailsComponent implements OnInit {
   }
 
   getPostById() {
-    this.postService.getPostById(this.id)
+    this.postService.getMyPostById(this.id)
       .subscribe(
         data => this.post = data,
         error => this.alertService.error(error)
@@ -226,5 +226,18 @@ export class MyPostDetailsComponent implements OnInit {
       // console.log(status);
       return status;
     }
+  }
+
+  closeIssue(){
+    console.log('Post id: '+this.id);
+    this.postService.closeIssue(this.id)
+    .subscribe(
+      data =>{
+        this.post = data;
+      },
+      error =>{
+        console.log(error);
+      }
+    );
   }
 }

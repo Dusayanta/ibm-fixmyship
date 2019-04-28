@@ -16,4 +16,6 @@ public interface PostService {
 	List<Post> findByUidNotIn(List<Long> userIds);
 	
 	List<Post> findByUidIn(List<Long> userIds);
+	
+	Post findByIdAndUid(Long id, Long uid);
 }

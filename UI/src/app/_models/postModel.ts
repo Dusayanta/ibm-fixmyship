@@ -8,4 +8,5 @@ export class PostModel{
   updated_by: string;
   commentCount: number;
   username: string;
+  resolved: string;
 }
