@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,8 +22,6 @@ import com.ibm.fixmyship.model.Like;
 import com.ibm.fixmyship.model.Post;
 import com.ibm.fixmyship.model.Solution;
 import com.ibm.fixmyship.payload.CloseRequest;
-import com.ibm.fixmyship.repository.CommentRepository;
-import com.ibm.fixmyship.repository.LikeRepository;
 import com.ibm.fixmyship.security.CurrentUser;
 import com.ibm.fixmyship.security.UserPrincipal;
 import com.ibm.fixmyship.service.CommentService;
@@ -111,6 +110,19 @@ public class PostController {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<>(myPostById, HttpStatus.OK);
+	}
+	
+	@PutMapping
+	public ResponseEntity<?> updatePost(@RequestBody Post post){
+		Post postToUpdate = postService.getOne(post.getId());
+		postToUpdate.setTitle(post.getTitle());
+		postToUpdate.setDescription(post.getDescription());
+		
+		Post updatedPost = postService.save(postToUpdate);
+		if(updatedPost == null) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(updatedPost, HttpStatus.OK);
 	}
 
 	@PostMapping("/comment")

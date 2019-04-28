@@ -28,6 +28,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   myPosts: PostModel[];
 
   badgeLevel: string;
+  nextBadgeLevel: string;
+  nextBadgeValue: number;
+  progressWidth: number;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -88,12 +91,26 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.userDetails = data;
         if(data.badgeValue <= 25){
           this.badgeLevel = 'bronze';
+          this.nextBadgeLevel = 'silver';
+          this.nextBadgeValue = 25;
+          if(data.badgeValue <=0 ){
+            this.progressWidth = 0.01;
+          }
+          else{
+            this.progressWidth = data.badgeValue / 2;
+          }
         }
         else if(data.badgeValue > 25 && data.badgeValue <=100){
           this.badgeLevel = 'silver';
+          this.nextBadgeLevel = 'gold';
+          this.nextBadgeValue = 100;
+          this.progressWidth = data.badgeValue / 2;
         }
         else if(data.badgeValue > 100 && data.badgeValue <=200){
           this.badgeLevel = 'gold';
+          this.nextBadgeLevel = 'platinum';
+          this.nextBadgeValue = 200;
+          this.progressWidth = data.badgeValue / 2;
         }
         else if(data.badgeValue > 200){
           this.badgeLevel = 'platinum';

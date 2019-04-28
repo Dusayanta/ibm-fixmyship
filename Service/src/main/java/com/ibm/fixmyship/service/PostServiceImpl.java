@@ -45,4 +45,9 @@ public class PostServiceImpl implements PostService{
 		return postRepo.findByIdAndUid(id, uid);
 	}
 
+	@Override
+	public Post getOne(Long id) {
+		return postRepo.getOne(id);
+	}
+
 }

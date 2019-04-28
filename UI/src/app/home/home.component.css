@@ -21,3 +21,15 @@ a{
 .bg-bronze{
   background-color: #cd7f32;
 }
+.bg-silver{
+  background-color: silver;
+}
+.bg-gold{
+  background-color: gold;
+}
+.bg-platinum{
+  background-color: #e5e4e2;
+}
+#creditsInfo{
+  font-size: 0.8rem;
+}

@@ -18,4 +18,6 @@ public interface PostService {
 	List<Post> findByUidIn(List<Long> userIds);
 	
 	Post findByIdAndUid(Long id, Long uid);
+	
+	Post getOne(Long id);
 }

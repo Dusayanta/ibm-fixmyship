@@ -96,4 +96,10 @@ export class PostService{
       .pipe(map(response => response));
 
     }
+
+    updatePost(postObj){
+      return this.http
+      .put<PostModel>(`${this.config.apiUrl}`, postObj)
+      .pipe(map(response => response));
+    }
 }
