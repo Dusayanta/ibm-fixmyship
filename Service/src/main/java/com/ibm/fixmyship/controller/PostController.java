@@ -74,6 +74,7 @@ public class PostController {
 		post.setCommentCount(0L);
 		post.setUid(currentUser.getId());
 		post.setUsername(currentUser.getFirstname());
+		post.setResolved("N");
 		Post gotPost = postService.save(post);
 		if (gotPost == null) {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
