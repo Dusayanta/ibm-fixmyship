@@ -6,6 +6,7 @@ import { first } from 'rxjs/operators';
 import { UserService } from "../_services/user.service";
 import { AuthenticationService } from "../_services/authentication.service";
 import { AlertService } from "../_services/alert.service";
+import { MustMatch } from "../_helpers/must-match.validator";
 
 @Component({
   selector: 'app-register',
@@ -34,12 +35,16 @@ export class RegisterComponent implements OnInit {
       this.registerForm = this.formBuilder.group({
           firstName: ['', Validators.required],
           lastName: ['', Validators.required],
-          email: ['', Validators.required],
+          email: ['', [Validators.required, Validators.email]],
           password: ['', [Validators.required, Validators.minLength(6)]],
-          confirmPassword: [''],
-          phone: ['',Validators.required],
+          confirmPassword: ['', Validators.required],
+          phone: ['',[Validators.required, Validators.minLength(10), Validators.maxLength(11)]],
           gender: ['',Validators.required]
-      });
+      },
+      {
+        validator: MustMatch('password', 'confirmPassword')
+      }
+    );
   }
 
   // convenience getter for easy access to form fields
@@ -53,12 +58,14 @@ export class RegisterComponent implements OnInit {
           return;
       }
 
+
+
       // building JSON for form data
       const formData = {
         firstname : this.f.firstName.value,
         lastname : this.f.lastName.value,
-        email : this.f.email.value,
-        username : this.f.email.value,
+        email : (this.f.email.value).toLowerCase(),
+        username : (this.f.email.value).toLowerCase(),
         password : this.f.password.value,
         phone : this.f.phone.value,
         gender : this.f.gender.value

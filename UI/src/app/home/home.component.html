@@ -3,7 +3,7 @@
       <div class="col-3 position-fixed">
           <div class="card shadow rounded text-center bg-white border border-danger">
             <div class="card-body bg-white">
-              <h5 class="card-title">My Profile</h5>
+              <h5 class="card-title">{{userDetails.firstname}} {{userDetails.lastname}}</h5>
               <p class="card-text my-2">
                 <img src="../../assets/avatar.png" height="110px" width="110px" alt="Profile Picture" />
               </p>
@@ -52,7 +52,10 @@
                       </div>
                     </div>
                     <div class="card-text ">
-                      <span class="h6">Next badge <em class="{{nextBadgeLevel}}">{{nextBadgeLevel | uppercase}}</em> after {{nextBadgeValue}} Credits</span>
+                      <span class="h6" *ngIf="userDetails.badgeValue < 200">Next badge <em class="{{nextBadgeLevel}}">{{nextBadgeLevel | uppercase}}</em> after {{nextBadgeValue}} Credits</span>
+                      <span class="h6" *ngIf="userDetails.badgeValue > 200">
+                        You have achieved the highest badge level
+                      </span>
                     </div>
                     <hr>
                     <div class="card-text">

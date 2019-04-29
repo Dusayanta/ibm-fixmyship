@@ -27,6 +27,7 @@
                   <input type='email' formControlName="email" class='form-control' [ngClass]="{ 'is-invalid': submitted && f.email.errors }" required placeholder="Email"/>
                   <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                     <div *ngIf="f.email.errors.required">Email is required</div>
+                    <div *ngIf="f.email.errors.email">Proper email address required</div>
                 </div>
               </div>
             </div>
@@ -39,24 +40,25 @@
               </div>
               </div>
               <div class="col-sm-6">
-                <input type="password" formControlName="confirmPassword" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" placeholder="Confirm Password">
-                <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
-                  <div *ngIf="f.confirmPassword.errors.required">Password is required</div>
-                  <div *ngIf="f.confirmPassword.errors.minlength">Password doesn't match</div>
-              </div>
+                        <input type="password" formControlName="confirmPassword" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" placeholder="Confirm Password" />
+                        <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+                            <div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>
+                            <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords must match</div>
+                        </div>
               </div>
             </div>
             <div class="form-group row">
               <div class="col-sm-3">
                   <select name="" id="" class="form-control">
-                      <option value="">US (+1)</option>
-                      <option value="">India (+91)</option>
+                      <option value="">(+91) - India</option>
                     </select>
               </div>
               <div class="col-sm-9">
-                  <input type='number' class='form-control' formControlName="phone" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }" placeholder="Phone"/>
+                  <input type='number' class='form-control' formControlName="phone" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }" placeholder="Phone" pattern=".{10,11}" title="Phone min 10 and max 11 digits"/>
                   <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
                     <div *ngIf="f.phone.errors.required">Phone is required</div>
+                    <div *ngIf="f.phone.errors.minlength">Phone must be min 10 digits</div>
+                    <div *ngIf="f.phone.errors.maxlength">Phone must be max 11 digits</div>
                 </div>
               </div>
             </div>
@@ -69,7 +71,7 @@
                     <option value='female'>Choose not to say</option>
                   </select>
                   <div *ngIf="submitted && f.gender.errors" class="invalid-feedback">
-                    <div *ngIf="f.gender.errors.required">Email is required</div>
+                    <div *ngIf="f.gender.errors.required">Gender is required</div>
                 </div>
             </div>
             <div class="row">
