@@ -5,7 +5,8 @@
             <div class="card-body bg-white">
               <h5 class="card-title">{{userDetails.firstname}} {{userDetails.lastname}}</h5>
               <p class="card-text my-2">
-                <img src="../../assets/avatar.png" height="110px" width="110px" alt="Profile Picture" />
+                <img *ngIf="userDetails.gender === 'male'" src="../../assets/avatar.png" height="110px" width="110px" alt="Profile Picture" />
+                <img *ngIf="userDetails.gender === 'female'" src="../../assets/avatar-girl.png" height="110px" width="110px" alt="Profile Picture" />
               </p>
             </div>
             <div class="card-text mt-2">

@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  config ={apiUrl:'http://localhost:8080/api'};
+  config ={apiUrl:'http://9.199.77.107:8080/api'};
     constructor(private http: HttpClient) { }
 
   getCurrentUserDetails(){
