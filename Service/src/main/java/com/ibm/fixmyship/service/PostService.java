@@ -20,4 +20,10 @@ public interface PostService {
 	Post findByIdAndUid(Long id, Long uid);
 	
 	Post getOne(Long id);
+	
+	List<Post> findAllByOrderByCreatedAtDesc();
+	
+	List<Post> findByUidNotInOrderByCreatedAtDesc(List<Long> userIds);
+	
+	List<Post> findByUidInOrderByCreatedAtDesc(List<Long> userIds);
 }

@@ -43,7 +43,7 @@
                         <input type="password" formControlName="confirmPassword" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" placeholder="Confirm Password" />
                         <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
                             <div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>
-                            <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords must match</div>
+                            <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords doesn't match</div>
                         </div>
               </div>
             </div>
@@ -67,7 +67,7 @@
                     <option value=''>Select Gender</option>
                     <option value='male'>Male</option>
                     <option value='female'>Female</option>
-                    <option value='female'>Transgender</option>
+                    <!-- <option value='female'>Transgender</option> -->
                     <option value='female'>Choose not to say</option>
                   </select>
                   <div *ngIf="submitted && f.gender.errors" class="invalid-feedback">
