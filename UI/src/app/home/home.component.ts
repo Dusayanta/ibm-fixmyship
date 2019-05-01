@@ -4,6 +4,7 @@ import { first } from 'rxjs/operators';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
+
 import { User } from '../_models/user';
 import { UserService } from '../_services/user.service';
 import { AuthenticationService } from '../_services/authentication.service';
@@ -32,6 +33,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   nextBadgeValue: number;
   progressWidth: number;
 
+  // interval: any;
+
+
   constructor(
     private authenticationService: AuthenticationService,
     private userService: UserService,
@@ -45,13 +49,18 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
     this.getCurrentUserDetails();
+  //   this.interval = setInterval(() => {
+  //     this.getCurrentUserDetails()
+  // }, 2000);
   }
 
   ngOnDestroy() {
     // unsubscribe to ensure no memory leaks
     this.currentUserSubscription.unsubscribe();
-  }
+    // clearInterval(this.interval);
+ }
 
   private loadUser() {
     this.userService.getCurrentUserDetails()
@@ -88,6 +97,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.userService.getCurrentUserDetails()
     .subscribe(
       data =>{
+        // console.log(data);
         this.userDetails = data;
         if(data.badgeValue <= 25){
           this.badgeLevel = 'bronze';

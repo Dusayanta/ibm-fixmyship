@@ -10,7 +10,7 @@ import { CommentModel } from '../_models/commentModel';
 @Injectable({ providedIn: 'root' })
 export class PostService{
 
-  config ={apiUrl:'http://9.199.77.107:8080/api/post'};
+  config ={apiUrl:'http://localhost:8080/api/post'};
     constructor(private http: HttpClient) { }
 
     writePost(postInfo){

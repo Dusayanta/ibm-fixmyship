@@ -50,4 +50,19 @@ public class PostServiceImpl implements PostService{
 		return postRepo.getOne(id);
 	}
 
+	@Override
+	public List<Post> findAllByOrderByCreatedAtDesc() {
+		return postRepo.findAllByOrderByCreatedAtDesc();
+	}
+
+	@Override
+	public List<Post> findByUidNotInOrderByCreatedAtDesc(List<Long> userIds) {
+		return postRepo.findByUidNotInOrderByCreatedAtDesc(userIds);
+	}
+
+	@Override
+	public List<Post> findByUidInOrderByCreatedAtDesc(List<Long> userIds) {
+		return postRepo.findByUidInOrderByCreatedAtDesc(userIds);
+	}
+
 }

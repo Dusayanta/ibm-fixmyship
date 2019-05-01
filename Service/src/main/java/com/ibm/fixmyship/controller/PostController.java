@@ -86,7 +86,7 @@ public class PostController {
 	public ResponseEntity<?> getPostByOthers(@CurrentUser UserPrincipal currentUser) {
 		List<Long> userIds = new ArrayList<>();
 		userIds.add(currentUser.getId());
-		List<Post> postByOthers = postService.findByUidNotIn(userIds);
+		List<Post> postByOthers = postService.findByUidNotInOrderByCreatedAtDesc(userIds);
 		if (postByOthers.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
@@ -97,7 +97,7 @@ public class PostController {
 	public ResponseEntity<?> getMyPosts(@CurrentUser UserPrincipal currentUser) {
 		List<Long> userIds = new ArrayList<>();
 		userIds.add(currentUser.getId());
-		List<Post> postByOthers = postService.findByUidIn(userIds);
+		List<Post> postByOthers = postService.findByUidInOrderByCreatedAtDesc(userIds);
 		if (postByOthers.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}

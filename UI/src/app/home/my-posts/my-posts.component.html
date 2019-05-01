@@ -2,6 +2,7 @@
   <div *ngFor="let post of myPosts" class="card shadow rounded bg-white d-block ml-4 mt-3">
     <div class="card-header text-right">
         <i
+        *ngIf="post.resolved === 'N'"
         class="fas fa-pen-square fa-2x text-primary"
         (click) = "loadEditData(post.id)"
         data-toggle="modal"
@@ -20,7 +21,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card-text">
-                    <p>{{post.description | slice:0:250}}</p>
+                    <p>{{post.description | slice:0:250}}<span *ngIf="post.description.length > 250">.......</span></p>
                     <div class="float-right">
                       <a [routerLink]="['../mypost', post.id]">Read More</a>
                     </div>
@@ -45,8 +46,8 @@
       </div>
   </div>
 </div>
-<div *ngIf="!myPosts">
-  <span>You haven't posted any issue yet</span>
+<div *ngIf="!myPosts" class="ml-4 mt-4">
+  <span class="h2">You haven't posted any issue yet</span>
 </div>
 
 <!-- Modal for Update Post -->
