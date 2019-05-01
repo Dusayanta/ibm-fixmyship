@@ -3,7 +3,7 @@ HELP.md
 !.mvn/wrapper/maven-wrapper.jar
 mvnw
 mvnw.cmd
-
+/bin
 ### STS ###
 .apt_generated
 .classpath
