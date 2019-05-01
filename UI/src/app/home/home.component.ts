@@ -99,31 +99,32 @@ export class HomeComponent implements OnInit, OnDestroy {
       data =>{
         // console.log(data);
         this.userDetails = data;
-        if(data.badgeValue <= 25){
+        if(data.badgeValue <= 5){
           this.badgeLevel = 'bronze';
           this.nextBadgeLevel = 'silver';
-          this.nextBadgeValue = 25;
+          this.nextBadgeValue = 10;
           if(data.badgeValue <=0 ){
             this.progressWidth = 0.01;
           }
           else{
-            this.progressWidth = data.badgeValue / 2;
+            this.progressWidth = data.badgeValue * 5;
           }
         }
-        else if(data.badgeValue > 25 && data.badgeValue <=100){
+        else if(data.badgeValue > 5 && data.badgeValue <=10){
           this.badgeLevel = 'silver';
           this.nextBadgeLevel = 'gold';
-          this.nextBadgeValue = 100;
-          this.progressWidth = data.badgeValue / 2;
+          this.nextBadgeValue = 10;
+          this.progressWidth = data.badgeValue * 5;
         }
-        else if(data.badgeValue > 100 && data.badgeValue <=200){
+        else if(data.badgeValue > 10 && data.badgeValue <=15){
           this.badgeLevel = 'gold';
           this.nextBadgeLevel = 'platinum';
-          this.nextBadgeValue = 200;
-          this.progressWidth = data.badgeValue / 2;
+          this.nextBadgeValue = 15;
+          this.progressWidth = data.badgeValue * 5;
         }
-        else if(data.badgeValue > 200){
+        else if(data.badgeValue > 15){
           this.badgeLevel = 'platinum';
+          // this.progressWidth = data.badgeValue * 5;
         }
       },
       error =>{
