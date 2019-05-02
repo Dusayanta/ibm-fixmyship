@@ -102,7 +102,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         if(data.badgeValue <= 5){
           this.badgeLevel = 'bronze';
           this.nextBadgeLevel = 'silver';
-          this.nextBadgeValue = 10;
+          this.nextBadgeValue = 5;
           if(data.badgeValue <=0 ){
             this.progressWidth = 0.01;
           }
