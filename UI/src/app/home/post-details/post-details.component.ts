@@ -5,6 +5,7 @@ import { PostService } from 'src/app/_services/post.service';
 import { AlertService } from 'src/app/_services/alert.service';
 import { FormsModule } from "@angular/forms";
 import { CommentModel } from 'src/app/_models/commentModel';
+import { UserService } from 'src/app/_services/user.service';
 
 @Component({
   selector: 'app-post-details',
@@ -44,7 +45,8 @@ export class PostDetailsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private postService: PostService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private userService: UserService
   ) {
     this.getLikesList();
     this.getDisLikeList();
@@ -76,7 +78,21 @@ export class PostDetailsComponent implements OnInit {
         data => {
           if (data) {
             this.numberOfComments = data.length;
+            data.forEach(d =>{
+              this.userService.getUserBadgeValueByUid(d.uid)
+              .subscribe(
+                res =>{
+                  // console.log(res);
+                  d.badgeValue = res[0];
+                  d.badgeLevel = this.getBadgeLevel(res[0]);
+                },
+                err =>{
+                  console.log(err);
+                }
+              );
+            });
           }
+          console.log(data);
           this.commentsByPostId = data;
         },
         error => this.alertService.error(error)
@@ -235,7 +251,7 @@ export class PostDetailsComponent implements OnInit {
     this.postService.getSolutionList(this.id)
     .subscribe(
       data =>{
-        console.log(data);
+        //console.log(data);
         this.solutionList = data;
       },
       error =>{
@@ -249,10 +265,27 @@ export class PostDetailsComponent implements OnInit {
       return false;
     } else {
       let status = this.solutionList.indexOf(cid) !== -1 ? true : false;
-      console.log(cid);
-      console.log(status);
+      // console.log(cid);
+      // console.log(status);
       return status;
     }
+  }
+
+  getBadgeLevel(value: number){
+    let level = '';
+    if(value <= 5){
+      level = 'bronze';
+    }
+    else if(value > 5 && value <=10){
+      level = 'silver';
+    }
+    else if(value > 10 && value <=15){
+      level = 'gold';
+    }
+    else if(value > 15){
+      level = 'platinum';
+    }
+    return level;
   }
 
 }

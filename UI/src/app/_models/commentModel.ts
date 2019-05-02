@@ -10,4 +10,6 @@ export class CommentModel{
   likeCount: number;
   dislikeCount: number;
   username: string;
+  badgeValue?: number;
+  badgeLevel?: string;
 }

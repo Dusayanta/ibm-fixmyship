@@ -55,4 +55,9 @@ public class UserServiceImpl implements UserService{
 		return userRepo.findById(id);
 	}
 
+	@Override
+	public Long findBadgeValueByUid(Long uid) {
+		return userRepo.findBadgeValueByUid(uid);
+	}
+
 }

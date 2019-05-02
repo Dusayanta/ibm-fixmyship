@@ -27,6 +27,12 @@ export class UserService {
         return this.http.post(`${this.config.apiUrl}/auth/signup`, user);
     }
 
+    getUserBadgeValueByUid(uid: number){
+      return this.http
+      .get<number[]>(`${this.config.apiUrl}/user/badge/${uid}`)
+      .pipe(map(response => response));
+    }
+
     // update(user: User) {
     //     return this.http.put(`${this.config.apiUrl}/users/${user.id}`, user);
     // }

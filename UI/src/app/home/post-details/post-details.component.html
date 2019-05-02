@@ -90,7 +90,16 @@
           <div class="col-12">
             <div class="card-text">
               <div class="float-right">
-                <p>- {{comment.username}}</p>
+                <p>
+                  - {{comment.username}} |
+                  <span
+                  id="badge"
+                  title="Badge Level - {{comment.badgeLevel | uppercase}}, Credits - {{comment.badgeValue}}"
+                  class="{{comment.badgeLevel}}"
+                  >
+                  {{comment.badgeLevel | uppercase}}
+                </span>
+              </p>
               </div>
             </div>
           </div>
