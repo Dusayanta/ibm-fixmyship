@@ -1,0 +1,60 @@
+Trigger for increment and decrement Comments count
+--------------------------------------------------
+
+DELIMITER $$
+create TRIGGER inc_countComments AFTER INSERT ON Comments
+FOR EACH ROW
+BEGIN
+ UPDATE Posts SET comment_count= comment_count + 1 WHERE id = NEW.pid;
+END $$
+DELIMITER;
+
+
+DELIMITER $$
+create TRIGGER dec_countComments AFTER DELETE ON Comments
+FOR EACH ROW
+BEGIN
+ UPDATE Posts SET comment_count= comment_count - 1 WHERE id = NEW.pid;
+END $$
+DELIMITER;
+
+
+
+Trigger for changing badge value based on insert/delete of likes and dislikes
+-----------------------------------------------------------------------------
+
+DELIMITER $$
+create TRIGGER INC_LikesAndBadges AFTER INSERT ON Likes
+FOR EACH ROW
+BEGIN
+UPDATE Comments SET like_count= like_count + 1 WHERE id = NEW.cid;
+UPDATE Users SET badge_value=badge_value+2 where id= (select uid from comments where id=new.cid);
+END $$
+DELIMITER;
+
+DELIMITER $$
+create TRIGGER DEC_LikesAndBadges AFTER DELETE ON Likes
+FOR EACH ROW
+BEGIN
+UPDATE Comments SET like_count= like_count - 1 WHERE id = OLD.cid;
+UPDATE Users SET badge_value=badge_value-2 where id= (select uid from comments where id=old.cid);
+END $$
+DELIMITER;
+
+DELIMITER $$
+create TRIGGER INC_DislikesAndBadges AFTER INSERT ON Dislikes
+FOR EACH ROW
+BEGIN
+UPDATE Comments SET dislike_count= dislike_count + 1 WHERE id = NEW.cid;
+UPDATE Users SET badge_value=badge_value-2 where id= (select uid from comments where id=new.cid);
+END $$
+DELIMITER;
+
+DELIMITER $$
+create TRIGGER DEC_DislikesAndBadges AFTER DELETE ON Dislikes
+FOR EACH ROW
+BEGIN
+UPDATE Comments SET dislike_count = dislike_count - 1 WHERE id = OLD.cid;
+UPDATE Users SET badge_value=badge_value+2 where id= (select uid from comments where id=old.cid);
+END $$
+DELIMITER;

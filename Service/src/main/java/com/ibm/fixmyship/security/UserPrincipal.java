@@ -47,7 +47,7 @@ public class UserPrincipal implements UserDetails {
         this.badgeValue = badgeValue;
         this.authorities = authorities;
     }
-
+    
     public static UserPrincipal create(User user) {
         List<GrantedAuthority> authorities = user.getRoles().stream().map(role ->
                 new SimpleGrantedAuthority(role.getName().name())
