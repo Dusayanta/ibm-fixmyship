@@ -1,6 +1,6 @@
 <div class="container-fluid">
-    <div class="row py-1 ml-5">
-      <div class="col-3 position-fixed">
+    <div class="row py-1 ml-md-5">
+      <div class="col-3 position-fixed d-none d-md-block b-lg-block">
           <div class="card shadow rounded text-center bg-white border border-danger">
             <div class="card-body bg-white">
               <h5 class="card-title">{{userDetails.firstname}} {{userDetails.lastname}}</h5>
@@ -20,10 +20,10 @@
             </div>
           </div>
       </div>
-      <div class="offset-3 col-5">
+      <div class="offset-md-3 py-2">
           <router-outlet></router-outlet>
       </div>
-      <div class="offset-8 col-3 position-fixed">
+      <div class="offset-md-8 d-none d-sm-block d-lg-block col-3 position-fixed">
             <div class="card shadow rounded text-center bg-white border-danger">
                 <div class="card-body">
                     <h5 class="card-title">Your Credits</h5>

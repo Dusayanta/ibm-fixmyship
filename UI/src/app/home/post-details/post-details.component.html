@@ -1,9 +1,9 @@
-<div id="postSection" class="ml-4 mb-2">
+<div id="postSection" class="col-sm-6 ml-md-5 ml-lg-5">
   <h5>Post</h5>
   <hr>
 </div>
 <div *ngIf="post" >
-  <div class="card shadow rounded bg-white d-block ml-4">
+  <div class="col-sm-6 card shadow rounded bg-white ml-md-5 ml-lg-5 ml-sm-3 ml-xs-3 border border-primary">
       <div class="card-body">
         <div class="row">
           <div class="col-12">
@@ -47,7 +47,7 @@
           </div>
           <div *ngIf="showCommentBox" class="row mt-3" id="commentSection">
             <div class="col-12">
-              <div class="card shadow rounded d-block">
+              <div class="card shadow rounded d-block border border-primary">
                 <div class="card-header">
                   <h6>What are your thoughts?</h6>
                 </div>
@@ -72,12 +72,12 @@
           </div>
       </div>
   </div>
-  <div class="ml-4 mt-5">
+  <div class="col-sm-6 ml-md-5 ml-lg-5 ml-sm-3 ml-xs-3 mt-4">
     <h5>{{numberOfComments}} Suggestions/Advises</h5>
     <hr>
   </div>
   <div *ngIf="commentsByPostId">
-    <div *ngFor="let comment of commentsByPostId" class="card shadow rounded d-block bg-white ml-4 my-1">
+    <div *ngFor="let comment of commentsByPostId" class="col-sm-6 card shadow rounded d-block bg-white ml-md-5 ml-lg-5 ml-sm-3 ml-xs-3 my-3 border border-primary">
       <div class="card-body">
         <div class="row">
           <div class="col-12">
