@@ -1,6 +1,6 @@
 <div *ngIf="myPosts">
-  <div *ngFor="let post of myPosts" class="card shadow rounded bg-white d-block ml-4 mt-3">
-    <div class="card-header text-right">
+  <div *ngFor="let post of myPosts" class="col-sm-6 card shadow rounded bg-white ml-md-4 mt-md-3">
+    <div class="card-header text-right bg-white">
         <i
         *ngIf="post.resolved === 'N'"
         class="fas fa-pen-square fa-2x text-primary"
@@ -10,7 +10,7 @@
         style="cursor: pointer;"
         ></i>
     </div>
-      <div class="card-body shadow">
+      <div class="card-body">
         <div class="row">
           <div class="col-12">
               <div class="card-title">

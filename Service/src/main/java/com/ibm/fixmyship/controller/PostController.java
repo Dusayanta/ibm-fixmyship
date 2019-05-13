@@ -29,7 +29,6 @@ import com.ibm.fixmyship.service.DislikeService;
 import com.ibm.fixmyship.service.LikeService;
 import com.ibm.fixmyship.service.PostService;
 import com.ibm.fixmyship.service.SolutionService;
-import com.ibm.fixmyship.service.UserService;
 
 @RestController
 @RequestMapping("/api/post")
@@ -37,9 +36,6 @@ public class PostController {
 
 	@Autowired
 	private PostService postService;
-
-	@Autowired
-	private UserService userService;
 
 	@Autowired
 	private CommentService commentService;
@@ -70,7 +66,6 @@ public class PostController {
 
 	@PostMapping
 	public ResponseEntity<?> addPost(@RequestBody Post post, @CurrentUser UserPrincipal currentUser) {
-		//System.out.println(currentUser.getId());
 		post.setCommentCount(0L);
 		post.setUid(currentUser.getId());
 		post.setUsername(currentUser.getFirstname());

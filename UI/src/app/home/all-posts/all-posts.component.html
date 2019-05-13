@@ -1,57 +1,82 @@
-<div class="col-sm-6 card shadow rounded bg-white ml-md-5 border border-primary">
-    <div class="card-body">
-        <div class="card-text">
-            <h3><a href="#" data-toggle="modal" data-target="#exampleModal">What is your issue?</a></h3>
-        </div>
+<div
+  class="col-sm-6 card shadow rounded bg-white ml-md-5 border border-primary"
+>
+  <div class="card-body">
+    <div class="card-text">
+      <h3>
+        <a href="#" data-toggle="modal" data-target="#exampleModal"
+          >What is your issue?</a
+        >
+      </h3>
     </div>
+  </div>
 </div>
 <div *ngIf="postsByOthers">
-    <div *ngFor="let post of postsByOthers" class="col-sm-6 card shadow rounded bg-white border border-primary d-block ml-md-5 mt-3">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-12">
-                <div class="card-title">
-                    <h5><a [routerLink]="['../post', post.id]" fragment="postSection" class="text-dark">{{post.title}}</a></h5>
-                </div>
-            </div>
+  <div
+    *ngFor="let post of postsByOthers"
+    class="col-sm-6 card shadow rounded bg-white border border-primary d-block ml-md-5 mt-3"
+  >
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12">
+          <div class="card-title">
+            <h5>
+              <a
+                [routerLink]="['../post', post.id]"
+                fragment="postSection"
+                class="text-dark"
+                >{{ post.title }}</a
+              >
+            </h5>
           </div>
-          <div class="row">
-              <div class="col-12">
-                  <div class="card-text">
-                      <p>{{post.description | slice:0:250}}<span *ngIf="post.description.length > 250">......</span></p>
-                      <div class="float-right">
-                        <a [routerLink]="['../post', post.id]">Read More</a>
-                      </div>
-                    </div>
-              </div>
-          </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="card-text mt-2 mb-2">
-                        <div class="float-right"><p>-{{post.username}}</p></div>
-                      </div>
-                </div>
-            </div>
-            <hr>
-            <div class="row">
-              <div class="col-6">
-                <span *ngIf="post.resolved === 'N'" class="text-info">
-                  <a [routerLink]="['../post', post.id]" fragment="commentSection">
-                    <i class="far fa-comments"></i>
-                    &nbsp;{{post.commentCount}}&nbsp;Suggest
-                  </a>
-                </span>
-                <span *ngIf="post.resolved === 'Y'" class="text-info">
-                      <i class="far fa-comments"></i>
-                      &nbsp;{{post.commentCount}}&nbsp;Suggest
-                </span>
-                </div>
-              <div class="col-6">
-                  Status:
-                  <span *ngIf="post.resolved === 'Y'" class="text-success"><em>Resolved</em></span>
-                  <span *ngIf="post.resolved === 'N'" class="text-danger"><em>Un-resolved</em></span>
-              </div>
-            </div>
         </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="card-text">
+            <p>
+              {{ post.description | slice: 0:250
+              }}<span *ngIf="post.description.length > 250">......</span>
+            </p>
+            <div class="float-right">
+              <a [routerLink]="['../post', post.id]">Read More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="card-text mt-2 mb-2">
+            <div class="float-right">
+              <p>-{{ post.username }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col-6">
+          <span *ngIf="post.resolved === 'N'" class="text-info">
+            <a [routerLink]="['../post', post.id]" fragment="commentSection">
+              <i class="far fa-comments"></i>
+              &nbsp;{{ post.commentCount }}&nbsp;Suggest
+            </a>
+          </span>
+          <span *ngIf="post.resolved === 'Y'" class="text-info">
+            <i class="far fa-comments"></i>
+            &nbsp;{{ post.commentCount }}&nbsp;Suggest
+          </span>
+        </div>
+        <div class="col-6">
+          Status:
+          <span *ngIf="post.resolved === 'Y'" class="text-success"
+            ><em>Resolved</em></span
+          >
+          <span *ngIf="post.resolved === 'N'" class="text-danger"
+            ><em>Un-resolved</em></span
+          >
+        </div>
+      </div>
     </div>
+  </div>
 </div>

@@ -51,16 +51,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.getCurrentUserDetails();
-  //   this.interval = setInterval(() => {
-  //     this.getCurrentUserDetails()
-  // }, 2000);
+    //   this.interval = setInterval(() => {
+    //     this.getCurrentUserDetails()
+    // }, 2000);
   }
 
   ngOnDestroy() {
     // unsubscribe to ensure no memory leaks
     this.currentUserSubscription.unsubscribe();
     // clearInterval(this.interval);
- }
+  }
 
   private loadUser() {
     this.userService.getCurrentUserDetails()
@@ -93,43 +93,43 @@ export class HomeComponent implements OnInit, OnDestroy {
           });
     }
   }
-  getCurrentUserDetails(){
+  getCurrentUserDetails() {
     this.userService.getCurrentUserDetails()
-    .subscribe(
-      data =>{
-        // console.log(data);
-        this.userDetails = data;
-        if(data.badgeValue <= 5){
-          this.badgeLevel = 'bronze';
-          this.nextBadgeLevel = 'silver';
-          this.nextBadgeValue = 5;
-          if(data.badgeValue <=0 ){
-            this.progressWidth = 0.01;
+      .subscribe(
+        data => {
+          // console.log(data);
+          this.userDetails = data;
+          if (data.badgeValue <= 5) {
+            this.badgeLevel = 'bronze';
+            this.nextBadgeLevel = 'silver';
+            this.nextBadgeValue = 5;
+            if (data.badgeValue <= 0) {
+              this.progressWidth = 0.01;
+            }
+            else {
+              this.progressWidth = data.badgeValue * 5;
+            }
           }
-          else{
+          else if (data.badgeValue > 5 && data.badgeValue <= 10) {
+            this.badgeLevel = 'silver';
+            this.nextBadgeLevel = 'gold';
+            this.nextBadgeValue = 10;
             this.progressWidth = data.badgeValue * 5;
           }
+          else if (data.badgeValue > 10 && data.badgeValue <= 15) {
+            this.badgeLevel = 'gold';
+            this.nextBadgeLevel = 'platinum';
+            this.nextBadgeValue = 15;
+            this.progressWidth = data.badgeValue * 5;
+          }
+          else if (data.badgeValue > 15) {
+            this.badgeLevel = 'platinum';
+            // this.progressWidth = data.badgeValue * 5;
+          }
+        },
+        error => {
+          console.log(error);
         }
-        else if(data.badgeValue > 5 && data.badgeValue <=10){
-          this.badgeLevel = 'silver';
-          this.nextBadgeLevel = 'gold';
-          this.nextBadgeValue = 10;
-          this.progressWidth = data.badgeValue * 5;
-        }
-        else if(data.badgeValue > 10 && data.badgeValue <=15){
-          this.badgeLevel = 'gold';
-          this.nextBadgeLevel = 'platinum';
-          this.nextBadgeValue = 15;
-          this.progressWidth = data.badgeValue * 5;
-        }
-        else if(data.badgeValue > 15){
-          this.badgeLevel = 'platinum';
-          // this.progressWidth = data.badgeValue * 5;
-        }
-      },
-      error =>{
-        console.log(error);
-      }
-    );
+      );
   }
 }
